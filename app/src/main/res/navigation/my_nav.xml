@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/water">
+
+    <fragment
+        android:id="@+id/water"
+        android:name="com.example.myfitnesspal.water"
+        android:label="fragment_water"
+        tools:layout="@layout/fragment_water" />
+    <fragment
+        android:id="@+id/diet"
+        android:name="com.example.myfitnesspal.diet"
+        android:label="fragment_diet"
+        tools:layout="@layout/fragment_diet" />
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.example.myfitnesspal.profile"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.example.myfitnesspal.settings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>
