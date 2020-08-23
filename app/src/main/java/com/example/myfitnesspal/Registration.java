@@ -1,7 +1,9 @@
 package com.example.myfitnesspal;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+//import com.google.firebase.auth.FirebaseAuth;
 
 import android.graphics.Color;
 import android.os.Build;
@@ -9,19 +11,27 @@ import android.os.Bundle;
 //import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 import static android.widget.Toast.*;
 
 public class Registration extends AppCompatActivity {
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        firebaseAuth=FirebaseAuth.getInstance();
 
 //      Name
         final EditText name=findViewById(R.id.name);
@@ -172,7 +182,32 @@ public class Registration extends AppCompatActivity {
        if( weight.getText().toString().length() == 0 )
            weight.setError( " Weight is required.!" );
 
+       final String em=email.getText().toString();
+       final String pass=password.getText().toString();
+       firebaseAuth.createUserWithEmailAndPassword(em,pass)
+               .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                   @Override
+                   public void onComplete(@NonNull Task<AuthResult> task) {
+//                       Log.d("Error",em);
+//                       Log.d("Error",pass);
+                       if (task.isSuccessful()){
+                           Toast.makeText(Registration.this,"Registration Success", LENGTH_LONG).show();
+                       }
+                       else{
+                           Log.w("Error", "createUserWithEmail:failure", task.getException());
+                           Toast.makeText(Registration.this,"Registration Failed", LENGTH_LONG).show();
+                       }
+                   }
+               });
+
+
+
     }
+//    private void registerUser(){
+////        firebaseAuth.createUserWithEmailAndPassword(email,password)
+//    }
+
+
 }
 
 
