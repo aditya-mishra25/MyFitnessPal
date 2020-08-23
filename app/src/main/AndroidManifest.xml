@@ -12,19 +12,14 @@
         <activity android:name=".LoginPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity android:name=".Registration">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-<<<<<<< HEAD
-
-                <category android:name="android.intent.category.LAUNCHER" />
-=======
                 <category android:name="android.intent.category" />
->>>>>>> 1d124c051767dc6139ae746496b1286ed6a39aad
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity">
