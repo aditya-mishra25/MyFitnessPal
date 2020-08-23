@@ -105,5 +105,23 @@ public class LoginPage extends AppCompatActivity {
             }
         });
     }
+
+    public void forgotPassword(View view) {
+        EditText email=(EditText) findViewById(R.id.email);
+        String em = email.getText().toString();
+        fauth.sendPasswordResetEmail(em).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(LoginPage.this,"loggedin",Toast.LENGTH_SHORT).show();
+                    Log.d("Sucess","logged");
+                }
+                else{
+                    Toast.makeText(LoginPage.this,task.getException().toString(),Toast.LENGTH_SHORT).show();
+                    Log.d("error",task.getException().toString());
+                }
+            }
+        });
+    }
 }
 
