@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "878410811169-tmo3drgbtq6t2tlqn06e5237ggfd72vv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myfitnesspal",
+            "certificate_hash": "55fe59288950e857726bd6ed8329cc78e3563900"
+          }
+        },
+        {
           "client_id": "878410811169-dm5h8hfkamr9ucq2osuovhfsqi4dbocn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
