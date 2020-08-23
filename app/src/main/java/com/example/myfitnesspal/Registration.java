@@ -21,18 +21,20 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import static android.widget.Toast.*;
 
 public class Registration extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         firebaseAuth=FirebaseAuth.getInstance();
-
 //      Name
         final EditText name=findViewById(R.id.name);
         name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -152,13 +154,13 @@ public class Registration extends AppCompatActivity {
    public void onButtonClick(View view){
 
 
-       EditText name= (EditText) findViewById(R.id.name);
-       EditText email=(EditText) findViewById(R.id.email);
-       EditText phone=(EditText) findViewById(R.id.phone);
+       final EditText name= (EditText) findViewById(R.id.name);
+       final EditText email=(EditText) findViewById(R.id.email);
+       final EditText phone=(EditText) findViewById(R.id.phone);
        EditText password=(EditText) findViewById(R.id.password);
-       EditText age=(EditText) findViewById(R.id.age);
-       EditText height=(EditText) findViewById(R.id.height);
-       EditText weight=(EditText) findViewById(R.id.weight);
+       final EditText age=(EditText) findViewById(R.id.age);
+       final EditText height=(EditText) findViewById(R.id.height);
+       final EditText weight=(EditText) findViewById(R.id.weight);
 
 
        if( name.getText().toString().length() == 0 )
@@ -191,6 +193,18 @@ public class Registration extends AppCompatActivity {
 //                       Log.d("Error",em);
 //                       Log.d("Error",pass);
                        if (task.isSuccessful()){
+                           String uid = firebaseAuth.getUid();
+                           Log.d("uid",uid);
+                           DatabaseReference Ref = database.getReference("Users");
+                           DatabaseReference myRef = Ref.child(uid);
+                           myRef.child("name").setValue(name.getText().toString());
+                           myRef.child("email").setValue(email.getText().toString());
+                           myRef.child("mobile").setValue(phone.getText().toString());
+                           myRef.child("age").setValue(age.getText().toString());
+                           myRef.child("height").setValue(height.getText().toString());
+                           myRef.child("weight").setValue(weight.getText().toString());
+                           final int bmi = Integer.parseInt(weight.getText().toString())/(Integer.parseInt(height.getText().toString()))^2;
+                           myRef.child("bmi").setValue(bmi);
                            Toast.makeText(Registration.this,"Registration Success", LENGTH_LONG).show();
                        }
                        else{
@@ -199,13 +213,7 @@ public class Registration extends AppCompatActivity {
                        }
                    }
                });
-
-
-
     }
-//    private void registerUser(){
-////        firebaseAuth.createUserWithEmailAndPassword(email,password)
-//    }
 
 
 }
