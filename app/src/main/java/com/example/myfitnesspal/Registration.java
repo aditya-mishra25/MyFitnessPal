@@ -43,6 +43,9 @@ public class Registration extends AppCompatActivity {
                 if(!b){
                     if (name.getText().toString().length() < 5)
                         name.setError(" Name should be atleast of length 5!");
+                    if(name.getText().toString().matches(".*\\d.*")){
+                        name.setError("Name cannot contain Numbers");
+                    }
                 }
             }
         });
@@ -54,8 +57,10 @@ public class Registration extends AppCompatActivity {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if(!b){
-                    if (age.getText().toString().length() < 1 || age.getText().toString().length() > 2)
-                        age.setError(" Invalid Age!");
+                    if (age.getText().toString().length() < 2 || age.getText().toString().length() > 2)
+
+//                        age.setError(" Invalid Age!");
+                    age.setError("Age should be between 10 - 99");
                 }
 //                String x=age.getText().toString();
 //                if( Integer.parseInt(x)==0){
@@ -75,14 +80,19 @@ public class Registration extends AppCompatActivity {
                         password.setError(" Minimum length of Password should be 8");
                     }
                     if (password.getText().toString().isEmpty()) {
-                        password.setError(" Invalid Password ");
+                        password.setError("Invalid Password, Minimum length of Password should be 8 ");
                     } else {
                         if (password.getText().toString().trim().matches(pass)) {
 //                        email.setError( " Invalid Password " );
 //                        Toast.makeText(getApplicationContext(),"valid email address",Toast.LENGTH_SHORT).show();
                         } else {
 //                        Toast.makeText(getApplicationContext(),"Invalid email address", Toast.LENGTH_SHORT).show();
-                            password.setError(" Invalid Password ");
+//                            password.setError(" Invalid Password ");
+                            if (password.getText().toString().length() < 8) {
+                                password.setError(" Minimum length of Password should be 8");
+                            }
+                            password.setError("Use the format : @,%,A,a,1");
+//                            password.setText();
                         }
                     }
                 }
@@ -95,8 +105,8 @@ public class Registration extends AppCompatActivity {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if(!b){
-           if (phone.getText().toString().length() != 10)
-               phone.setError(" Invalid Phone!");
+                   if (phone.getText().toString().length() != 10)
+                       phone.setError(" Invalid Phone!");
 
             }}
         });
@@ -131,9 +141,23 @@ public class Registration extends AppCompatActivity {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if(!b){
+                    if(height.getText().toString().length()<2){
+                        height.setError("Height should be atleast 100cm");
+                    }
 //                    EditText height = (EditText) findViewById((R.id.height));
-                    if (height.getText().toString().length() < 2 || height.getText().toString().length() > 3)
-                        height.setError(" Invalid Height!");
+                    if (height.getText().toString().length() ==2 ){
+                        if (Integer.parseInt(height.getText().toString())<100){
+                            height.setError("Height cannot be below 100 cm");
+                        }
+                    }
+
+
+                    if(height.getText().toString().length() > 2){
+                        if (Integer.parseInt(height.getText().toString())>220){
+                            height.setError("Height cannot be above 220 cm");
+                        }
+
+                    }
                 }
             }
         });
@@ -145,8 +169,14 @@ public class Registration extends AppCompatActivity {
             public void onFocusChange(View view, boolean b) {
                 if(!b){
 //                    EditText weight = (EditText) findViewById((R.id.weight));
-                if (weight.getText().toString().length() < 2 || weight.getText().toString().length() > 3)
-                    weight.setError(" Invalid Weight!");
+                if (weight.getText().toString().length() < 2  ){
+                    weight.setError(" Weight cannot be below 10 kgs");
+                }
+                if(weight.getText().toString().length()>2){
+                    if (Integer.parseInt(weight.getText().toString())>250){
+                        weight.setError("Weight cannot be more than 250kgs");
+                    }
+                }
             }}
         });
 
@@ -163,56 +193,77 @@ public class Registration extends AppCompatActivity {
        final EditText weight=(EditText) findViewById(R.id.weight);
 
 
-       if( name.getText().toString().length() == 0 )
-           name.setError( " Name is required.!" );
 
-       if( email.getText().toString().length() == 0 )
-           email.setError( " Email is required.!" );
 
-       if( phone.getText().toString().length() == 0 )
-           phone.setError( " Phone Number is required.!" );
 
-       if( password.getText().toString().length() == 0 )
-           password.setError( " Password is required.!" );
-
-       if( age.getText().toString().length() == 0 )
-           age.setError( " Age is required.!" );
-
-       if( height.getText().toString().length() == 0 )
-           height.setError( " Height is required.!" );
-
-       if( weight.getText().toString().length() == 0 )
-           weight.setError( " Weight is required.!" );
-
-       final String em=email.getText().toString();
-       final String pass=password.getText().toString();
-       firebaseAuth.createUserWithEmailAndPassword(em,pass)
-               .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                   @Override
-                   public void onComplete(@NonNull Task<AuthResult> task) {
-//                       Log.d("Error",em);
-//                       Log.d("Error",pass);
-                       if (task.isSuccessful()){
-                           String uid = firebaseAuth.getUid();
-                           Log.d("uid",uid);
-                           DatabaseReference Ref = database.getReference("Users");
-                           DatabaseReference myRef = Ref.child(uid);
-                           myRef.child("name").setValue(name.getText().toString());
-                           myRef.child("email").setValue(email.getText().toString());
-                           myRef.child("mobile").setValue(phone.getText().toString());
-                           myRef.child("age").setValue(age.getText().toString());
-                           myRef.child("height").setValue(height.getText().toString());
-                           myRef.child("weight").setValue(weight.getText().toString());
-                           final int bmi = Integer.parseInt(weight.getText().toString())/(Integer.parseInt(height.getText().toString()))^2;
-                           myRef.child("bmi").setValue(bmi);
-                           Toast.makeText(Registration.this,"Registration Success", LENGTH_LONG).show();
-                       }
-                       else{
-                           Log.w("Error", "createUserWithEmail:failure", task.getException());
-                           Toast.makeText(Registration.this,"Registration Failed", LENGTH_LONG).show();
-                       }
+       if( name.getText().toString().length() == 0 ) {
+           name.setError("Name cannot be blank");
+       }
+           else{
+                   if(email.getText().toString().length() == 0 ){
+                       email.setError("Email cannot be blank");
                    }
-               });
+                   else{
+                           if(phone.getText().toString().length() == 0 ){
+                               phone.setError("Phone cannot be blank");
+                           }
+                           else{
+                                   if(password.getText().toString().length() == 0 ){
+                                       password.setError("Password cannot be blank");
+                                   }
+                                   else{
+                                           if(age.getText().toString().length() == 0 ){
+                                               age.setError("Age cannot be blank");
+                                           }
+                                           else{
+                                                   if(height.getText().toString().length() == 0 ){
+                                                       height.setError("Height cannot be blank");
+                                                   }
+                                                   else{
+                                                           if(weight.getText().toString().length() == 0 ){
+                                                               weight.setError("Weight cannot be blank");
+                                                           }
+                                                           else{
+                                                               final String em=email.getText().toString();
+                                                               final String pass=password.getText().toString();
+                                                               firebaseAuth.createUserWithEmailAndPassword(em,pass)
+                                                                       .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                                                           @Override
+                                                                           public void onComplete(@NonNull Task<AuthResult> task) {
+                                                    //                       Log.d("Error",em);
+                                                    //                       Log.d("Error",pass);
+                                                                               if (task.isSuccessful()){
+                                                                                   String uid = firebaseAuth.getUid();
+                                                                                   Log.d("uid",uid);
+                                                                                   DatabaseReference Ref = database.getReference("Users");
+                                                                                   DatabaseReference myRef = Ref.child(uid);
+                                                                                   myRef.child("name").setValue(name.getText().toString());
+                                                                                   myRef.child("email").setValue(email.getText().toString());
+                                                                                   myRef.child("mobile").setValue(phone.getText().toString());
+                                                                                   myRef.child("age").setValue(age.getText().toString());
+                                                                                   myRef.child("height").setValue(height.getText().toString());
+                                                                                   myRef.child("weight").setValue(weight.getText().toString());
+                                                                                   final int bmi = Integer.parseInt(weight.getText().toString())/(Integer.parseInt(height.getText().toString()))^2;
+                                                                                   myRef.child("bmi").setValue(bmi);
+                                                                                   Toast.makeText(Registration.this,"Registration Success", LENGTH_LONG).show();
+                                                                               }
+                                                                               else{
+                                                                                   Log.w("Error", "createUserWithEmail:failure", task.getException());
+                                                                                   Toast.makeText(Registration.this,"Registration Failed", LENGTH_LONG).show();
+                                                                               }
+                                                                           }
+                                                                       });
+
+                                                           }
+                                                   }
+                                           }
+                                   }
+                           }
+
+               }
+       }
+
+
     }
 
 
