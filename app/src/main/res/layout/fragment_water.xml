@@ -41,22 +41,42 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/textView"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:fontFamily="sans-serif"
-                    android:text="0ml / 1250ml"
-                    android:textColor="#00BFFE"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/pie" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="sans-serif"
+                        android:text="50ml"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/pie" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="sans-serif"
+                        android:text="/1250ml"
+                        android:textColor="#000"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/pie" />
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -83,6 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
+                    android:textColor="#000"
                     android:layout_marginRight="10dp"
                     android:text="Add the Amount of Water you Drank:"
                     android:textSize="15dp" />
@@ -92,7 +113,7 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="#00BFFE" />
+                    android:background="@color/colorAccent" />
 
                 <com.google.android.flexbox.FlexboxLayout
                     android:layout_width="match_parent"
@@ -109,12 +130,14 @@
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:background="#ffff"
-                            android:src="@drawable/glass" />
+                            android:src="@drawable/glass"
+                            android:id="@+id/glass"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:textColor="#000"
                             android:text="250ml" />
 
                         <TextView
@@ -135,12 +158,14 @@
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:background="#ffff"
+                            android:id="@+id/smallBottle"
                             android:src="@drawable/bottle" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:textColor="#000"
                             android:text="500ml" />
 
                     </LinearLayout>
@@ -154,12 +179,14 @@
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:background="#ffff"
+                            android:id="@+id/bigBottle"
                             android:src="@drawable/bigbottle" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:textColor="#000"
                             android:text="700ml" />
 
                     </LinearLayout>
@@ -173,13 +200,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:id="@+id/custom"
                             android:src="@drawable/ic_baseline_add_24" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="Custom" />
+                            android:layout_marginTop="4.5dp"
+                            android:text="Custom"
+                            android:textColor="#000" />
                     </LinearLayout>
 
                 </com.google.android.flexbox.FlexboxLayout>
@@ -191,10 +221,12 @@
 
         <Button
             android:id="@+id/button"
-            android:layout_width="156dp"
+            android:layout_width="160dp"
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
             android:text="Monthly Report?"
+            android:background="@drawable/pill_bg"
+            android:textColor="#ffffff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView2" />
@@ -216,6 +248,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="match_parent"
@@ -224,8 +257,9 @@
                     android:layout_marginLeft="24dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="24dp"
+                    android:textColor="#000"
                     android:layout_marginRight="24dp"
-                    android:text="You're Monthly Report"
+                    android:text="Your Monthly Report"
                     android:textSize="15dp" />
 
                 <View
@@ -236,7 +270,7 @@
                     android:layout_marginLeft="24dp"
                     android:layout_marginEnd="24dp"
                     android:layout_marginRight="24dp"
-                    android:background="#00BFFE" />
+                    android:background="@color/colorAccent" />
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/Linechart"

@@ -1,5 +1,8 @@
 package com.example.myfitnesspal;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -7,11 +10,15 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -22,6 +29,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -37,7 +45,10 @@ public class water extends Fragment {
     LineChart lineChart;
     CardView cv;
     ScrollView sc;
-    Button button;
+    Button button, add, cncl;
+    ImageButton glass, bottle, bigBottle;
+    FloatingActionButton floatingActionButton;
+    EditText water_quantity;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -148,6 +159,66 @@ public class water extends Fragment {
                 }
             }
         });
+        glass = (ImageButton) getView().findViewById(R.id.glass);
+        glass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Glass","250ml");
+            }
+        });
+        bottle = (ImageButton) getView().findViewById(R.id.smallBottle);
+        bottle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Bottle","500ml");
+            }
+        });
+        bigBottle = (ImageButton) getView().findViewById(R.id.bigBottle);
+        bigBottle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("BigBottle","750ml");
+            }
+        });
+        floatingActionButton = (FloatingActionButton) getView().findViewById(R.id.custom);
+        floatingActionButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Log.d("custom","___ml");
+//                final Dialog dialog = new Dialog(getActivity());
+//                dialog.setContentView(R.layout.custom_btn_dialouge);
+//                dialog.show();
+                final ViewGroup viewGroup = getView().findViewById(android.R.id.content);
+                final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.custom_btn_dialouge, viewGroup, false);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(dialogView);
+                final AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                add = dialogView.findViewById(R.id.add);
+                cncl = dialogView.findViewById(R.id.del);
+                water_quantity = dialogView.findViewById(R.id.qty);
+//                Log.d("quantity",qty);
+                add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final String qty = water_quantity.getText().toString();
+                        if(qty.equals("")){
+                            Toast.makeText(getActivity(),"Please input some value",Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            Log.d("Add",qty+"ml");
+                            alertDialog.dismiss();//change code here
+                        }
+                    }
+                });
+                cncl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -165,5 +236,14 @@ public class water extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_water, container, false);
     }
+//    public void glass(View view){
+//        Log.d("Glass","250ml");
+//    }
+//    public void smallBottle(View view){
+//        Log.d("bottle","500ml");
+//    }
+//    public void bigBottle(View view){
+//        Log.d("BigBottle","750ml");
+//    }
 
 }
