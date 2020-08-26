@@ -91,7 +91,7 @@ public class Registration extends AppCompatActivity {
                             if (password.getText().toString().length() < 8) {
                                 password.setError(" Minimum length of Password should be 8");
                             }
-                            password.setError("Use the format : @,%,A,a,1");
+                                password.setError("Use the format : @,%,A,a,1");
 //                            password.setText();
                         }
                     }
@@ -248,8 +248,9 @@ public class Registration extends AppCompatActivity {
                                                                                    Toast.makeText(Registration.this,"Registration Success", LENGTH_LONG).show();
                                                                                }
                                                                                else{
+                                                                                  String log_msg=task.getException().toString().substring(61);
                                                                                    Log.w("Error", "createUserWithEmail:failure", task.getException());
-                                                                                   Toast.makeText(Registration.this,"Registration Failed", LENGTH_LONG).show();
+                                                                                   Toast.makeText(Registration.this,  log_msg, LENGTH_LONG).show();
                                                                                }
                                                                            }
                                                                        });
