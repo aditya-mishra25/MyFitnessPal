@@ -109,12 +109,12 @@
                     </EditText>
 
                     <Button
+                        android:layout_width="375dp"
+                        android:layout_height="48dp"
                         android:layout_margin="10dp"
-                        android:layout_width="match_parent"
-                        android:background="#24a0ed"
-                        android:textColor="#fff"
-                        android:layout_height="wrap_content"
-                        android:text="Reset"/>
+                        android:background="@drawable/pill_bg"
+                        android:text="Reset"
+                        android:textColor="#fff" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
@@ -161,15 +161,14 @@
             android:background="@color/colorAccent"/>
 
         <Button
-            android:layout_margin="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:background="#FF6347"
-            android:textColor="#fff"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
             android:layout_marginBottom="20dp"
-            android:layout_gravity="center">
-        </Button>
+            android:background="@drawable/pill_bg"
+            android:text="Logout"
+            android:textColor="#fff"></Button>
     </LinearLayout>
 
 </ScrollView>

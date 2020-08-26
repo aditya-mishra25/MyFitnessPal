@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 //import com.google.firebase.auth.FirebaseAuth;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -246,6 +247,8 @@ public class Registration extends AppCompatActivity {
                                                                                    final int bmi = Integer.parseInt(weight.getText().toString())/(Integer.parseInt(height.getText().toString()))^2;
                                                                                    myRef.child("bmi").setValue(bmi);
                                                                                    Toast.makeText(Registration.this,"Registration Success", LENGTH_LONG).show();
+                                                                                   startActivity(new Intent(getApplicationContext(),LoginPage.class));
+
                                                                                }
                                                                                else{
                                                                                   String log_msg=task.getException().toString().substring(61);

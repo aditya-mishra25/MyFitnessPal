@@ -86,27 +86,34 @@ public class LoginPage extends AppCompatActivity {
         String em = email.getText().toString();
         String pwd = password.getText().toString();
 
-        if( email.getText().toString().length() == 0 )
-            email.setError( " Email is required.!" );
+        if( em.length() == 0 ) {
+            email.setError(" Email is required.!");
+        }
+        else{
+            if( pwd.length() == 0 ){
+                password.setError( " Password is required.!" );
+        }else{
+                fauth.signInWithEmailAndPassword(em,pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
 
-        if( password.getText().toString().length() == 0 )
-            password.setError( " Password is required.!" );
+                            Toast.makeText(LoginPage.this,"Logged In Successfully", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                        }
+                        else{
+                            Log.w("Error", "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(LoginPage.this,"Incorrect Credentials",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+
+        }
+
 
         //Authentication
-        fauth.signInWithEmailAndPassword(em,pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
 
-                    Toast.makeText(LoginPage.this,"Logged In Successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                }
-                else{
-                    Log.w("Error", "createUserWithEmail:failure", task.getException());
-                    Toast.makeText(LoginPage.this,"Incorrect Credentials",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
     public void forgotPassword(View view) {
@@ -153,6 +160,9 @@ public class LoginPage extends AppCompatActivity {
             }
         });
 
+    }
+    public void goToReg(View view){
+        startActivity(new Intent(getApplicationContext(),Registration.class));
     }
 }
 
