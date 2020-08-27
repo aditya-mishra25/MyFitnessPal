@@ -77,8 +77,6 @@ public class LoginPage extends AppCompatActivity {
                 }
             }
         });
-
-
     }
     public void onButtonClick(View view){
         EditText email=(EditText) findViewById(R.id.email);

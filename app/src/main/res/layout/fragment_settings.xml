@@ -98,20 +98,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Enter Old Password"
+                        android:inputType="textPassword"
                         android:layout_margin="10dp">
                     </EditText>
 
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:inputType="textPassword"
                         android:hint="Enter New Password"
                         android:layout_margin="10dp">
                     </EditText>
 
                     <Button
-                        android:layout_width="375dp"
+
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:layout_margin="10dp"
                         android:background="@drawable/pill_bg"
                         android:text="Reset"
                         android:textColor="#fff" />
@@ -161,14 +165,15 @@
             android:background="@color/colorAccent"/>
 
         <Button
+            android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/pill_bg"
             android:text="Logout"
-            android:textColor="#fff"></Button>
+            android:background="#FF6347"
+            android:textColor="#fff"/>
     </LinearLayout>
 
 </ScrollView>
