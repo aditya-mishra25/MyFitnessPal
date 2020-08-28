@@ -131,14 +131,14 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="48dp"
         android:layout_marginStart="124dp"
         android:layout_marginLeft="124dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="124dp"
         android:layout_marginRight="124dp"
-        android:background="@android:color/background_dark"
+        android:background="@drawable/pill_bg"
         android:onClick="onButtonClick"
         android:text="JOIN US"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
