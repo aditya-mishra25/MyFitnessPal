@@ -1,12 +1,41 @@
 package com.example.myfitnesspal;
 
+import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ScrollView;
+import android.widget.SeekBar;
+import android.widget.Toast;
+
+
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,7 +48,17 @@ public class diet extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    PieChart pieChart;
+    String[] basic={"Roti","Naan","Garlic Naam"};
+    //    String[] p;
+    AutoCompleteTextView ac;
+    CardView cv;
+    EditText quan;
+    CardView v2;
+    LineChart lineChart;
+    SeekBar sb;
+    Button addFood,add,cancel,chart;
+    ScrollView sc;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -47,6 +86,161 @@ public class diet extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        cv =  getView().findViewById(R.id.cardView);
+//        cv.setVisibility(View.GONE);
+        //scrollview
+        sc =getView().findViewById(R.id.scroll);
+        //PieChart
+//        b1=getView().findViewById(R.id.button);
+        pieChart = getView().findViewById(R.id.pie);
+        pieChart.setUsePercentValues(false);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.setExtraOffsets(10,10,10,5);
+        pieChart.setDragDecelerationFrictionCoef(0f);
+        pieChart.setTouchEnabled(false);
+        pieChart.setDrawHoleEnabled(true
+        );
+        pieChart.setHoleColor(Color.WHITE);
+        pieChart.setHoleRadius(95f);
+        pieChart.setTransparentCircleRadius(64f);
+//        pieChart.setEntryLabelColor(Color.BLACK);
+
+        ArrayList<PieEntry> yValues = new ArrayList<>();
+        yValues.add(new PieEntry(50,"Protein"));
+        yValues.add(new PieEntry(20,"Fats"));
+        yValues.add(new PieEntry(30,"Carbohydrates"));
+
+        pieChart.animateY(1000, Easing.EaseInOutCubic);
+
+        PieDataSet dataSet = new PieDataSet(yValues, "Diet Tracker");
+        dataSet.setSliceSpace(2f);
+        dataSet.setSelectionShift(5f);
+//        dataSet.setColors(ContextCompat.getColor(getActivity(),R.color.colorPrimaryDark));
+//        dataSet.setColor(255,67);
+
+        pieChart.setCenterText("Diet Tracker");
+        pieChart.setCenterTextSize(25f);
+        dataSet.setColors(Color.rgb(255,187,0),Color.rgb(0,120,237),Color.rgb(255,120,0));
+        pieChart.getLegend().setEnabled(true);
+
+        PieData pieData = new PieData((dataSet));
+        dataSet.setValueTextSize(0f);
+        dataSet.setValueTextColor(Color.BLACK);
+
+        pieChart.setData(pieData);
+
+        ac=( AutoCompleteTextView )getView().findViewById(R.id.autoCompleteTextView2);
+        ArrayAdapter<String> ad=new ArrayAdapter(getActivity(),android.R.layout.select_dialog_item,basic);
+        ac.setThreshold(1);
+        ac.setAdapter(ad);
+
+
+
+        lineChart = (LineChart) getView().findViewById(R.id.Linechart);
+//        lineChart.setOnChartGestureListener(MainActivity.this);
+//        lineChart.setOnChartValueSelectedListener(MainActivity.this);
+
+        lineChart.setDragEnabled(true);
+        lineChart.setScaleEnabled(false);
+
+        ArrayList<Entry> yvalues = new ArrayList<>();
+        yvalues.add(new Entry(0,60f));
+        yvalues.add(new Entry(1,50f));
+        yvalues.add(new Entry(2,70f));
+        yvalues.add(new Entry(3,30f));
+        yvalues.add(new Entry(4,60f));
+        yvalues.add(new Entry(5,55f));
+        yvalues.add(new Entry(6,65f));
+
+        LineDataSet set1 = new LineDataSet(yvalues,"Data Set 1");
+        set1.setFillAlpha(110);
+
+        ArrayList<LineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1);
+
+        LineData data = new LineData(set1);
+        lineChart.setData(data);
+
+
+
+
+        addFood=getView().findViewById(R.id.button3);
+        addFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String food=ac.getText().toString();
+                final ViewGroup viewGroup = getView().findViewById(android.R.id.content);
+                final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.add_diet_quant, viewGroup, false);
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(dialogView);
+
+                final AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+
+                add = dialogView.findViewById(R.id.add);
+                cancel = dialogView.findViewById(R.id.cancel);
+                quan=dialogView.findViewById(R.id.quan);
+
+
+                add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final String qty = quan.getText().toString();
+                        if(qty.equals("")){
+                            Toast.makeText(getActivity(),"Please input some value",Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            Log.d("Add",qty+"ml");
+                            alertDialog.dismiss();//change code here
+                        }
+                    }
+                });
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+            }
+        });
+
+
+        chart=getView().findViewById(R.id.chart);
+        chart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String food=ac.getText().toString();
+                final ViewGroup viewGroup = getView().findViewById(android.R.id.content);
+                final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.foodchart, viewGroup, false);
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(dialogView);
+
+                final AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+
+            }
+        });
+
+
+
+
+
+
+
+
+   }
+
+
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -62,3 +256,8 @@ public class diet extends Fragment {
         return inflater.inflate(R.layout.fragment_diet, container, false);
     }
 }
+
+
+
+
+

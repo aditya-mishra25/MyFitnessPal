@@ -80,6 +80,7 @@ public class water extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
