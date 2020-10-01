@@ -25,6 +25,9 @@ import android.widget.Toast;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -134,8 +137,10 @@ public class water extends Fragment {
         pieChart.setTouchEnabled(false);
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColor(Color.WHITE);
-        pieChart.setHoleRadius(59f);
-        pieChart.setTransparentCircleRadius(64f);
+        pieChart.setHoleRadius(70f);
+        pieChart.setTransparentCircleRadius(74f);
+        pieChart.setCenterText("Water Tracker");
+        pieChart.setCenterTextSize(25f);
 
         final String date = date();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -150,6 +155,36 @@ public class water extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         targetSet = snapshot.child("target").getValue(Integer.class);
+                        water = snapshot.child(date).getValue(Integer.class);
+                        target.setText(String.valueOf(targetSet));
+                        achived.setText(String.valueOf(water));
+
+                        target.setText(String.valueOf(targetSet));
+                        empty = targetSet-water; // fetch the target value for empty
+
+                        Log.d("fetched2",String.valueOf(water));
+                        final ArrayList<PieEntry> yValues = new ArrayList<>();
+                        yValues.add(new PieEntry(water));
+                        yValues.add(new PieEntry(empty));
+                        pieChart.animateY(1000, Easing.EaseInOutCubic);
+
+                        PieDataSet dataSet = new PieDataSet(yValues, "Water Tracker");
+                        dataSet.setSliceSpace(2f);
+                        dataSet.setSelectionShift(5f);
+                        dataSet.setColors(Color.rgb(0,191,254),Color.rgb(237,236,237));
+                        pieChart.getLegend().setEnabled(false);
+
+                        PieData pieData = new PieData((dataSet));
+                        dataSet.setValueTextSize(0f);
+                        dataSet.setValueTextColor(Color.LTGRAY);
+
+                        pieChart.setData(pieData);
+
+                        if (water == targetSet){
+                            glass.setEnabled(false);
+                            bottle.setEnabled(false);
+                            bigBottle.setEnabled(false);
+                        }
                     }
 
                     @Override
@@ -157,26 +192,7 @@ public class water extends Fragment {
 
                     }
                 });
-                target.setText(String.valueOf(targetSet));
-                empty = 5000-water; // fetch the target value for empty
 
-                Log.d("fetched2",String.valueOf(water));
-                final ArrayList<PieEntry> yValues = new ArrayList<>();
-                yValues.add(new PieEntry(water));
-                yValues.add(new PieEntry(empty));
-                pieChart.animateY(1000, Easing.EaseInOutCubic);
-
-                PieDataSet dataSet = new PieDataSet(yValues, "Water Tracker");
-                dataSet.setSliceSpace(2f);
-                dataSet.setSelectionShift(5f);
-                dataSet.setColors(Color.rgb(0,191,254),Color.rgb(237,236,237));
-                pieChart.getLegend().setEnabled(false);
-
-                PieData pieData = new PieData((dataSet));
-                dataSet.setValueTextSize(0f);
-                dataSet.setValueTextColor(Color.LTGRAY);
-
-                pieChart.setData(pieData);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -220,7 +236,6 @@ public class water extends Fragment {
                         }
                         System.out.println("TreeMap "+sorted);
 
-
                         Log.d("array", String.valueOf(dataSnapshot.getValue()));
                         String X[] = sorted.keySet().toArray(new String[0]);
                         Collection<Integer> Y =sorted.values();
@@ -229,6 +244,18 @@ public class water extends Fragment {
                         System.out.println("hashmap"+y[0]+" "+y[1]);
 
                         lineChart = (LineChart) getView().findViewById(R.id.Linechart);
+
+                        XAxis xAxis = lineChart.getXAxis();
+                        YAxis yAxis = lineChart.getAxisLeft();
+                        XAxis.XAxisPosition position = XAxis.XAxisPosition.BOTTOM;
+                        xAxis.setPosition(position);
+                        xAxis.enableGridDashedLine(2f, 7f, 0f);
+                        xAxis.setAxisMaximum(5f);
+                        xAxis.setAxisMinimum(0f);
+                        xAxis.setLabelCount(6, true);
+                        xAxis.setGranularityEnabled(true);
+                        xAxis.setGranularity(7f);
+//                        xAxis.setLabelRotationAngle(315f);
 
                         lineChart.setDragEnabled(true);
                         lineChart.setScaleEnabled(false);
@@ -239,10 +266,18 @@ public class water extends Fragment {
                         }
 //                        yvalues.add(new Entry(0,60f));
 
-                        LineDataSet set1 = new LineDataSet(yvalues,"Data Set 1");
+                        LineDataSet set1 = new LineDataSet(yvalues,"Water Intake Level");
                         set1.setFillAlpha(110);
                         ArrayList<LineDataSet> dataSets = new ArrayList<>();
                         dataSets.add(set1);
+
+                        lineChart.getDescription().setEnabled(true);
+                        Description description = new Description();
+
+                        description.setText("Last 7 Days");
+                        description.setTextSize(15f);
+
+                        lineChart.setDescription(description);
 
                         LineData data = new LineData(set1);
                         lineChart.setData(data);
@@ -254,33 +289,6 @@ public class water extends Fragment {
                     Log.d("array", "Empty");
                 }
             });
-//        System.out.println("Hello world"+arr);
-
-        ////////////////////////////////////////////////////////////////////////
-//        lineChart = (LineChart) getView().findViewById(R.id.Linechart);
-////        lineChart.setOnChartGestureListener(MainActivity.this);
-////        lineChart.setOnChartValueSelectedListener(MainActivity.this);
-//
-//        lineChart.setDragEnabled(true);
-//        lineChart.setScaleEnabled(false);
-//
-//        yvalues = new ArrayList<>();
-//        yvalues.add(new Entry(0,60f));
-//        yvalues.add(new Entry(1,50f));
-//        yvalues.add(new Entry(2,70f));
-//        yvalues.add(new Entry(3,30f));
-//        yvalues.add(new Entry(4,60f));
-//        yvalues.add(new Entry(5,55f));
-//        yvalues.add(new Entry(6,65f));
-//
-//        LineDataSet set1 = new LineDataSet(yvalues,"Data Set 1");
-//        set1.setFillAlpha(110);
-//
-//        ArrayList<LineDataSet> dataSets = new ArrayList<>();
-//        dataSets.add(set1);
-//
-//        LineData data = new LineData(set1);
-//        lineChart.setData(data);
 
         //button
         button = (Button) getView().findViewById(R.id.button);
@@ -392,6 +400,8 @@ public class water extends Fragment {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     String tar = snapshot.child("target").getValue().toString();
+                                    water = snapshot.child(date).getValue(Integer.class);
+                                    updateWaterLevel(0);
                                     targetSet = Integer.parseInt(tar);
                                     target.setText(String.valueOf(targetSet));
                                     Log.d("Updated value", String.valueOf(targetSet));

@@ -234,7 +234,7 @@
             android:layout_width="160dp"
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
-            android:text="Monthly Report?"
+            android:text="Weekly Report?"
             android:background="@drawable/pill_bg"
             android:textColor="#ffffff"
             app:layout_constraintEnd_toEndOf="parent"
@@ -269,7 +269,7 @@
                     android:layout_marginEnd="24dp"
                     android:textColor="#000"
                     android:layout_marginRight="24dp"
-                    android:text="Your Monthly Report"
+                    android:text="Your Weekly Report"
                     android:textSize="15dp" />
 
                 <View
