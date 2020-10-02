@@ -48,14 +48,14 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView4"
+                        android:id="@+id/achived"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:fontFamily="sans-serif"
-                        android:text="50ml"
+                        android:text=""
                         android:textColor="@color/colorAccent"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -63,20 +63,30 @@
                         app:layout_constraintTop_toBottomOf="@+id/pie" />
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/target"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:fontFamily="sans-serif"
-                        android:text="/1250ml"
+                        android:text=""
                         android:textColor="#000"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/pie" />
+                        app:layout_constraintTop_toBottomOf="@+id/pie" />'
+
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/updateTarget"
+                    android:padding="5dp"
+                    android:textColor="#1A73E8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="Update target?" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -224,7 +234,7 @@
             android:layout_width="160dp"
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
-            android:text="Monthly Report?"
+            android:text="Weekly Report?"
             android:background="@drawable/pill_bg"
             android:textColor="#ffffff"
             app:layout_constraintEnd_toEndOf="parent"
@@ -259,7 +269,7 @@
                     android:layout_marginEnd="24dp"
                     android:textColor="#000"
                     android:layout_marginRight="24dp"
-                    android:text="Your Monthly Report"
+                    android:text="Your Weekly Report"
                     android:textSize="15dp" />
 
                 <View
