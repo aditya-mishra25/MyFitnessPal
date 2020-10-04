@@ -49,45 +49,30 @@
                         android:textColor="@color/colorPrimaryDark" />
 
                     <TextView
-                        android:layout_width="100dp"
+                        android:layout_width="50dp"
                         android:layout_column="2"
                         android:padding="3dp"
-                        android:text="Calories"
+                        android:text="Fats"
                         android:textColor="@color/colorPrimaryDark" />
-
                     <TextView
-                        android:layout_width="111dp"
+                        android:layout_width="110dp"
                         android:layout_column="3"
                         android:padding="3dp"
-                        android:text="Qty"
+                        android:text="Carbohydrates"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_column="4"
+                        android:padding="3dp"
+                        android:text="Proteins"
                         android:textColor="@color/colorPrimaryDark" />
                 </TableRow>
 
                 <TableRow>
 
                     <TextView
-                        android:layout_width="153dp"
-                        android:layout_height="match_parent"
-                        android:layout_column="1"
-                        android:padding="3dp"
-                        android:text=" "
-                        android:textColor="@color/colorPrimaryDark" />
-
-                    <TextView
-                        android:layout_column="2"
-                        android:padding="3dp"
-                        android:text=" "
-                        android:textColor="@color/colorPrimaryDark"
-                        />
-
-
-                </TableRow>
-
-
-                <TableRow>
-
-                    <TextView
-                        android:layout_width="153dp"
+                        android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:layout_column="1"
                         android:padding="3dp"
@@ -95,79 +80,30 @@
                         android:textColor="@color/colorPrimaryDark" />
 
                     <TextView
-                        android:layout_width="120dp"
+                        android:layout_width="50dp"
                         android:layout_column="2"
                         android:padding="3dp"
-                        android:text="30"
+                        android:text="20"
                         android:textColor="@color/colorPrimaryDark" />
-
                     <TextView
-                        android:layout_width="120dp"
+                        android:layout_width="110dp"
                         android:layout_column="3"
                         android:padding="3dp"
-                        android:text="1"
-                        android:textColor="@color/colorPrimaryDark" />
-
-                </TableRow>
-
-                <TableRow>
-
-                    <TextView
-                        android:layout_width="153dp"
-                        android:layout_height="match_parent"
-                        android:layout_column="1"
-                        android:padding="3dp"
-                        android:text="Butter Roti"
+                        android:text="10"
                         android:textColor="@color/colorPrimaryDark" />
 
                     <TextView
-                        android:layout_column="2"
-                        android:padding="3dp"
-                        android:text="50"
-                        android:textColor="@color/colorPrimaryDark"
-                        />
-
-                    <TextView
-                        android:layout_width="120dp"
-                        android:layout_column="3"
-                        android:padding="3dp"
-                        android:text="1"
-                        android:textColor="@color/colorPrimaryDark" />
-
-
-                </TableRow>
-
-                <TableRow>
-
-                    <TextView
-                        android:layout_width="153dp"
-                        android:layout_height="match_parent"
-                        android:layout_column="1"
-                        android:padding="3dp"
-                        android:text="Naan"
-                        android:textColor="@color/colorPrimaryDark" />
-
-                    <TextView
-                        android:layout_column="2"
+                        android:layout_width="70dp"
+                        android:layout_column="4"
                         android:padding="3dp"
                         android:text="35"
-                        android:textColor="@color/colorPrimaryDark"
-                        />
-
-                    <TextView
-                        android:layout_width="120dp"
-                        android:layout_column="3"
-                        android:padding="3dp"
-                        android:text="2"
                         android:textColor="@color/colorPrimaryDark" />
-
-
                 </TableRow>
 
                 <TableRow>
 
                     <TextView
-                        android:layout_width="153dp"
+                        android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:layout_column="1"
                         android:padding="3dp"
@@ -175,26 +111,61 @@
                         android:textColor="@color/colorPrimaryDark" />
 
                     <TextView
+                        android:layout_width="50dp"
                         android:layout_column="2"
                         android:padding="3dp"
-                        android:text="70"
-                        android:textColor="@color/colorPrimaryDark"
-                        />
-
+                        android:text="25"
+                        android:textColor="@color/colorPrimaryDark" />
                     <TextView
-                        android:layout_width="120dp"
+                        android:layout_width="110dp"
                         android:layout_column="3"
                         android:padding="3dp"
-                        android:text="2"
+                        android:text="30"
                         android:textColor="@color/colorPrimaryDark" />
 
-
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_column="4"
+                        android:padding="3dp"
+                        android:text="10"
+                        android:textColor="@color/colorPrimaryDark" />
                 </TableRow>
 
                 <TableRow>
 
                     <TextView
-                        android:layout_width="153dp"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_column="1"
+                        android:padding="3dp"
+                        android:text="Chapati"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_column="2"
+                        android:padding="3dp"
+                        android:text="6"
+                        android:textColor="@color/colorPrimaryDark" />
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_column="3"
+                        android:padding="3dp"
+                        android:text="10"
+                        android:textColor="@color/colorPrimaryDark" />
+
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_column="4"
+                        android:padding="3dp"
+                        android:text="10"
+                        android:textColor="@color/colorPrimaryDark" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:layout_column="1"
                         android:padding="3dp"
@@ -202,20 +173,178 @@
                         android:textColor="@color/colorPrimaryDark" />
 
                     <TextView
+                        android:layout_width="50dp"
                         android:layout_column="2"
                         android:padding="3dp"
-                        android:text="120"
-                        android:textColor="@color/colorPrimaryDark"
-                        />
-
+                        android:text="30"
+                        android:textColor="@color/colorPrimaryDark" />
                     <TextView
-                        android:layout_width="120dp"
+                        android:layout_width="110dp"
                         android:layout_column="3"
                         android:padding="3dp"
-                        android:text="2"
+                        android:text="25"
                         android:textColor="@color/colorPrimaryDark" />
 
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_column="4"
+                        android:padding="3dp"
+                        android:text="20"
+                        android:textColor="@color/colorPrimaryDark" />
                 </TableRow>
+                <!--                <TableRow>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="153dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_column="1"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text=" "-->
+<!--                        android:textColor="@color/colorPrimaryDark" />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_column="2"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text=" "-->
+<!--                        android:textColor="@color/colorPrimaryDark"-->
+<!--                        />-->
+
+
+<!--                </TableRow>-->
+
+
+<!--                <TableRow>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="153dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_column="1"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text="Roti"-->
+<!--                        android:textColor="@color/colorPrimaryDark" />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="120dp"-->
+<!--                        android:layout_column="2"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text="30"-->
+<!--                        android:textColor="@color/colorPrimaryDark" />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="120dp"-->
+<!--                        android:layout_column="3"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text="1"-->
+<!--                        android:textColor="@color/colorPrimaryDark" />-->
+
+<!--                </TableRow>-->
+
+<!--                <TableRow>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="153dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_column="1"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text="Butter Roti"-->
+<!--                        android:textColor="@color/colorPrimaryDark" />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_column="2"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text="50"-->
+<!--                        android:textColor="@color/colorPrimaryDark"-->
+<!--                        />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="120dp"-->
+<!--                        android:layout_column="3"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text="1"-->
+<!--                        android:textColor="@color/colorPrimaryDark" />-->
+
+
+<!--                </TableRow>-->
+
+<!--                <TableRow>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="153dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_column="1"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text="Naan"-->
+<!--                        android:textColor="@color/colorPrimaryDark" />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_column="2"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text="35"-->
+<!--                        android:textColor="@color/colorPrimaryDark"-->
+<!--                        />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="120dp"-->
+<!--                        android:layout_column="3"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text="2"-->
+<!--                        android:textColor="@color/colorPrimaryDark" />-->
+
+
+<!--                </TableRow>-->
+
+<!--                <TableRow>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="153dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_column="1"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text="Butter Naan"-->
+<!--                        android:textColor="@color/colorPrimaryDark" />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_column="2"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text="70"-->
+<!--                        android:textColor="@color/colorPrimaryDark"-->
+<!--                        />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="120dp"-->
+<!--                        android:layout_column="3"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text="2"-->
+<!--                        android:textColor="@color/colorPrimaryDark" />-->
+
+
+<!--                </TableRow>-->
+
+<!--                <TableRow>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="153dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_column="1"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text="Garlic Naan"-->
+<!--                        android:textColor="@color/colorPrimaryDark" />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_column="2"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text="120"-->
+<!--                        android:textColor="@color/colorPrimaryDark"-->
+<!--                        />-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="120dp"-->
+<!--                        android:layout_column="3"-->
+<!--                        android:padding="3dp"-->
+<!--                        android:text="2"-->
+<!--                        android:textColor="@color/colorPrimaryDark" />-->
+
+<!--                </TableRow>-->
 
             </TableLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

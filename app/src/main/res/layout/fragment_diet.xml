@@ -20,170 +20,196 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbarAlwaysDrawVerticalTrack="true">
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        tools:layout_editor_absoluteY="1dp">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="420dp"
-            android:layout_height="725dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginLeft="50dp"
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginBottom="50dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.505"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintTop_toBottomOf="@+id/cardView3" >
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="401dp"
-                android:layout_height="322dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:outlineAmbientShadowColor="#000"
-                android:outlineSpotShadowColor="#000000"
-                android:padding="5dp">
-
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/pie"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </com.github.mikephil.charting.charts.PieChart>
-
-            </androidx.cardview.widget.CardView>
-
-            <Space
+            <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv"
-                android:layout_width="match_parent"
-                android:layout_height="246dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="217dp">
-
-                    <Button
-                        android:id="@+id/chart"
-                        android:layout_width="160dp"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:background="@drawable/pill_bg"
-                        android:text="View Chart"
-                        android:textColor="@android:color/white"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView2" />
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <TableRow>
 
                     <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="351dp"
-                        android:layout_height="36dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:text="  Enter Food Details"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_column="1"
+                        android:padding="3dp"
+                        android:text="Food"
+                        android:textColor="@color/colorPrimaryDark" />
 
-                    <AutoCompleteTextView
-                        android:id="@+id/autoCompleteTextView2"
-                        android:layout_width="276dp"
-                        android:layout_height="51dp"
-                        android:layout_marginStart="45dp"
-                        android:layout_marginLeft="45dp"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginRight="5dp"
-                        android:hint="Start Typing......."
-                        app:layout_constraintEnd_toStartOf="@+id/button3"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_column="2"
+                        android:padding="3dp"
+                        android:text="Fats"
+                        android:textColor="@color/colorPrimaryDark" />
+                    <TextView
+                        android:layout_width="110dp"
+                        android:layout_column="3"
+                        android:padding="3dp"
+                        android:text="Carbohydrates"
+                        android:textColor="@color/colorPrimaryDark" />
 
-                    <Button
-                        android:id="@+id/button3"
-                        android:layout_width="60dp"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="36dp"
-                        android:layout_marginEnd="28dp"
-                        android:layout_marginRight="28dp"
-                        android:background="@drawable/pill_bg"
-                        android:text="Add"
-                        android:textColor="@color/design_default_color_background"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/autoCompleteTextView2"
-                        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_column="4"
+                        android:padding="3dp"
+                        android:text="Proteins"
+                        android:textColor="@color/colorPrimaryDark" />
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_column="5"
+                        android:padding="3dp"
+                        android:text="Qty"
+                        android:textColor="@color/colorPrimaryDark" />
+                </TableRow>
 
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:layout_editor_absoluteY="383dp" />
+                <TableRow>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_column="1"
+                        android:padding="3dp"
+                        android:text="Garlic Naan"
+                        android:textColor="@color/colorPrimaryDark" />
 
-            </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_column="2"
+                        android:padding="3dp"
+                        android:text="30"
+                        android:textColor="@color/colorPrimaryDark" />
+                    <TextView
+                        android:layout_width="110dp"
+                        android:layout_column="3"
+                        android:padding="3dp"
+                        android:text="25"
+                        android:textColor="@color/colorPrimaryDark" />
 
-            <Space
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_column="4"
+                        android:padding="3dp"
+                        android:text="20"
+                        android:textColor="@color/colorPrimaryDark" />
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_column="5"
+                        android:padding="3dp"
+                        android:text="1"
+                        android:textColor="@color/colorPrimaryDark" />
+                </TableRow>
+
+
+            </TableLayout>
+        </androidx.cardview.widget.CardView>>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="401dp"
+            android:layout_height="322dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:outlineAmbientShadowColor="#000"
+            android:outlineSpotShadowColor="#000000"
+            android:padding="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pie"
                 android:layout_width="match_parent"
-                android:layout_height="10dp" />
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.cardview.widget.CardView
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </com.github.mikephil.charting.charts.PieChart>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView3"
+            android:layout_width="401dp"
+            android:layout_height="170dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="213dp">
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextView2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:hint="Enter Food Details"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/Linechart"
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginBottom="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
+                <Button
+                    android:id="@+id/chart"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/pill_bg"
+                    android:text="View Chart"
+                    android:textColor="@color/design_default_color_background"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextView2" />
 
-        </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
