@@ -236,6 +236,7 @@ public class Registration extends AppCompatActivity {
                                                                                if (task.isSuccessful()){
                                                                                    String uid = firebaseAuth.getUid();
                                                                                    Log.d("uid",uid);
+
                                                                                    DatabaseReference Ref = database.getReference("Users");
                                                                                    DatabaseReference myRef = Ref.child(uid);
                                                                                    myRef.child("name").setValue(name.getText().toString());
