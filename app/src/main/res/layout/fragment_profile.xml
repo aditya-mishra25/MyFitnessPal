@@ -12,7 +12,7 @@
         android:padding="7dp"
         android:scrollbarAlwaysDrawVerticalTrack="true"
         android:layout_height="match_parent">
-//firstcard
+        //firstcard
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView1"
@@ -60,6 +60,7 @@
 //second card
 
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="8dp"
@@ -71,18 +72,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Personal Details"
-                android:textStyle="bold"
                 android:layout_margin="16dp"
+                android:text="Personal Details"
+                android:textColor="@color/colorAccent"
                 android:textSize="15sp"
-                android:textColor="@color/colorAccent">
-            </TextView>
+                android:textStyle="bold"></TextView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:margin="5dp"
+                android:layout_margin="5dp"
                 android:outlineAmbientShadowColor="#000"
                 android:outlineSpotShadowColor="#000000">
 
@@ -92,10 +92,10 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:padding="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="5dp">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -103,10 +103,10 @@
                             android:src="@drawable/age"></ImageView>
 
                         <TextView
-                            android:layout_marginLeft="2dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="2dp"
                             android:text="Age"
                             android:textColor="@color/colorPrimary"
                             android:textSize="24sp"></TextView>
@@ -121,18 +121,19 @@
                             android:textSize="24sp"
                             android:textStyle="bold"></TextView>
                     </LinearLayout>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@color/colorAccent" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/colorAccent" />
 
                     <LinearLayout
-                        android:padding="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="5dp">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -140,10 +141,10 @@
                             android:src="@drawable/weight"></ImageView>
 
                         <TextView
-                            android:layout_marginLeft="2dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="2dp"
                             android:text="Weight"
                             android:textColor="@color/colorPrimary"
                             android:textSize="24sp"></TextView>
@@ -158,6 +159,7 @@
                             android:textSize="24sp"
                             android:textStyle="bold"></TextView>
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -167,9 +169,9 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:padding="5dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="5dp">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -177,10 +179,10 @@
                             android:src="@drawable/height"></ImageView>
 
                         <TextView
-                            android:layout_marginLeft="2dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="2dp"
                             android:text="Height"
                             android:textColor="@color/colorPrimary"
                             android:textSize="24sp"></TextView>
@@ -195,6 +197,7 @@
                             android:textSize="24sp"
                             android:textStyle="bold"></TextView>
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -203,51 +206,64 @@
                         android:background="@color/colorAccent" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
- //third card
+            //third card
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="BMI Status"
-                android:textStyle="bold"
                 android:layout_margin="16dp"
+                android:text="BMI Status"
+                android:textColor="@color/colorAccent"
                 android:textSize="15sp"
-                android:textColor="@color/colorAccent">
-            </TextView>
+                android:textStyle="bold"></TextView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 app:cardBackgroundColor="#90EE90">
-">
+                ">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                        <ImageView
-                            android:layout_marginTop="20dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@drawable/bmi"></ImageView>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:textStyle="bold"
-                            android:text="BMI is Normal"
-                            android:layout_gravity="center_horizontal"
-                            android:textSize="36dp"
-                            android:textColor="#fff">
-                        </TextView>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:src="@drawable/bmi"></ImageView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:text="BMI is Normal"
+                        android:textColor="#fff"
+                        android:textSize="36dp"
+                        android:textStyle="bold"></TextView>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-    </LinearLayout>
-
-        //endofsecondcard
+        </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_edit_24"/>
+            android:layout_marginStart="396dp"
+            android:layout_marginLeft="396dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ic_baseline_edit_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.857"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+            app:layout_constraintVertical_bias="1.0" />
+
+        //endofsecondcard
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

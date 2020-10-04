@@ -124,12 +124,12 @@
 
 
             </TableLayout>
-        </androidx.cardview.widget.CardView>>
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="401dp"
-            android:layout_height="322dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
@@ -145,7 +145,7 @@
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pie"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="300dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

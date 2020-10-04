@@ -223,6 +223,7 @@ public class water extends Fragment {
 
         //Line Graph
         /////////////////////////////////////////////////////////////////////////
+        lineChart = (LineChart) getView().findViewById(R.id.Linechart);
         final Query chatQuery = myRef.orderByKey().limitToLast(8);
         chatQuery.addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -244,7 +245,7 @@ public class water extends Fragment {
                         System.out.println("hashmap"+X[0]+" "+X[1]);
                         System.out.println("hashmap"+y[0]+" "+y[1]);
 
-                        lineChart = (LineChart) getView().findViewById(R.id.Linechart);
+//                        lineChart = (LineChart) getView().findViewById(R.id.Linechart);
 
                         XAxis xAxis = lineChart.getXAxis();
                         YAxis yAxis = lineChart.getAxisLeft();
@@ -435,6 +436,7 @@ public class water extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        
     }
 
     @Override
@@ -501,7 +503,7 @@ public class water extends Fragment {
         water =water+cal;
 //        empty =empty-cal;
 
-        achived  = (TextView) getView().findViewById(R.id.achived);
+//        achived  = (TextView) getView().findViewById(R.id.achived);
         achived.refreshDrawableState();
         achived.setText(String.valueOf(water));
         target.setText(String.valueOf((targetSet)));

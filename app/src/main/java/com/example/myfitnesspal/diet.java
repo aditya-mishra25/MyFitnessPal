@@ -111,8 +111,8 @@ public class diet extends Fragment {
         pieChart.setHoleColor(Color.WHITE);
 //        pieChart.setHoleRadius(95f);
 //        pieChart.setTransparentCircleRadius(64f);
-        pieChart.setHoleRadius(59f);
-        pieChart.setTransparentCircleRadius(64f);
+        pieChart.setHoleRadius(70f);
+        pieChart.setTransparentCircleRadius(74f);
 //        pieChart.setEntryLabelColor(Color.BLACK);
 
         ArrayList<PieEntry> yValues = new ArrayList<>();
@@ -122,7 +122,7 @@ public class diet extends Fragment {
 
         pieChart.animateY(1000, Easing.EaseInOutCubic);
 
-        PieDataSet dataSet = new PieDataSet(yValues, "Diet Tracker");
+        PieDataSet dataSet = new PieDataSet(yValues, "");
         dataSet.setSliceSpace(2f);
         dataSet.setSelectionShift(5f);
 //        dataSet.setColors(ContextCompat.getColor(getActivity(),R.color.colorPrimaryDark));
@@ -132,10 +132,10 @@ public class diet extends Fragment {
         pieChart.setCenterTextSize(25f);
         dataSet.setColors(Color.rgb(255,187,0),Color.rgb(0,120,237),Color.rgb(255,120,0));
         pieChart.getLegend().setEnabled(true);
-
+        pieChart.setDrawEntryLabels(false);
         PieData pieData = new PieData((dataSet));
         dataSet.setValueTextSize(0f);
-        dataSet.setValueTextColor(Color.BLACK);
+        dataSet.setValueTextColor(Color.LTGRAY);
 
         pieChart.setData(pieData);
 
