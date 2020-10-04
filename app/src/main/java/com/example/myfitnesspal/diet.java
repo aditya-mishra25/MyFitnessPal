@@ -1,5 +1,6 @@
 package com.example.myfitnesspal;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,15 +11,19 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -53,11 +58,12 @@ public class diet extends Fragment {
     //    String[] p;
     AutoCompleteTextView ac;
     CardView cv;
+    String chartValue;
     EditText quan;
     CardView v2;
     LineChart lineChart;
     SeekBar sb;
-    Button addFood,add,cancel,chart;
+    Button plus,minus,add,cancel,chart;
     ScrollView sc;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -101,10 +107,11 @@ public class diet extends Fragment {
         pieChart.setExtraOffsets(10,10,10,5);
         pieChart.setDragDecelerationFrictionCoef(0f);
         pieChart.setTouchEnabled(false);
-        pieChart.setDrawHoleEnabled(true
-        );
+        pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColor(Color.WHITE);
-        pieChart.setHoleRadius(95f);
+//        pieChart.setHoleRadius(95f);
+//        pieChart.setTransparentCircleRadius(64f);
+        pieChart.setHoleRadius(59f);
         pieChart.setTransparentCircleRadius(64f);
 //        pieChart.setEntryLabelColor(Color.BLACK);
 
@@ -133,44 +140,13 @@ public class diet extends Fragment {
         pieChart.setData(pieData);
 
         ac=( AutoCompleteTextView )getView().findViewById(R.id.autoCompleteTextView2);
-        ArrayAdapter<String> ad=new ArrayAdapter(getActivity(),android.R.layout.select_dialog_item,basic);
+        final ArrayAdapter<String> ad=new ArrayAdapter(getActivity(),android.R.layout.select_dialog_item,basic);
         ac.setThreshold(1);
         ac.setAdapter(ad);
-
-
-
-        lineChart = (LineChart) getView().findViewById(R.id.Linechart);
-//        lineChart.setOnChartGestureListener(MainActivity.this);
-//        lineChart.setOnChartValueSelectedListener(MainActivity.this);
-
-        lineChart.setDragEnabled(true);
-        lineChart.setScaleEnabled(false);
-
-        ArrayList<Entry> yvalues = new ArrayList<>();
-        yvalues.add(new Entry(0,60f));
-        yvalues.add(new Entry(1,50f));
-        yvalues.add(new Entry(2,70f));
-        yvalues.add(new Entry(3,30f));
-        yvalues.add(new Entry(4,60f));
-        yvalues.add(new Entry(5,55f));
-        yvalues.add(new Entry(6,65f));
-
-        LineDataSet set1 = new LineDataSet(yvalues,"Data Set 1");
-        set1.setFillAlpha(110);
-
-        ArrayList<LineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set1);
-
-        LineData data = new LineData(set1);
-        lineChart.setData(data);
-
-
-
-
-        addFood=getView().findViewById(R.id.button3);
-        addFood.setOnClickListener(new View.OnClickListener() {
+        chartValue= ac.getText().toString();
+        ac.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String food=ac.getText().toString();
                 final ViewGroup viewGroup = getView().findViewById(android.R.id.content);
                 final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.add_diet_quant, viewGroup, false);
@@ -183,9 +159,36 @@ public class diet extends Fragment {
 
 
                 add = dialogView.findViewById(R.id.add);
-                cancel = dialogView.findViewById(R.id.cancel);
+//                cancel = dialogView.findViewById(R.id.cancel);
                 quan=dialogView.findViewById(R.id.quan);
+                plus = dialogView.findViewById(R.id.plus);
+                minus = dialogView.findViewById(R.id.minus);
+                plus.setOnClickListener(new View.OnClickListener() {
+                    @SuppressLint("ResourceType")
+                    @Override
+                    public void onClick(View view) {
+                        int p=Integer.parseInt(quan.getText().toString());
+                        quan.clearComposingText();
+                        int x=p+1;
+                        quan.setText(""+x);
 
+                    }
+                });
+                minus.setOnClickListener(new View.OnClickListener() {
+                    @SuppressLint("ResourceType")
+                    @Override
+                    public void onClick(View view) {
+                        int p=Integer.parseInt(quan.getText().toString());
+                        quan.clearComposingText();
+                        int x=p-1;
+                        if (x<1) {
+                        Toast.makeText(getActivity(),"quantity cannot be less than zero",Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            quan.setText("" + x);
+                        }
+                    }
+                });
 
                 add.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -200,17 +203,23 @@ public class diet extends Fragment {
                         }
                     }
                 });
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        alertDialog.dismiss();
-                    }
-                });
-
+//                cancel.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        alertDialog.dismiss();
+//                    }
+//                });
             }
         });
 
 
+
+
+//
+//
+//        addFood=getView().findViewById(R.id.button3);
+//
+//
         chart=getView().findViewById(R.id.chart);
         chart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,8 +237,6 @@ public class diet extends Fragment {
 
             }
         });
-
-
 
 
 
