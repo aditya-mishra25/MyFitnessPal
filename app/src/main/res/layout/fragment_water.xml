@@ -33,7 +33,7 @@
                 android:orientation="vertical">
 
                 <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/pie"
+                    android:id="@+id/pie1"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +60,7 @@
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/pie" />
+                        app:layout_constraintTop_toBottomOf="@+id/pie1" />
 
                     <TextView
                         android:id="@+id/textView"
@@ -75,7 +75,7 @@
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/pie" />
+                        app:layout_constraintTop_toBottomOf="@+id/pie1" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
