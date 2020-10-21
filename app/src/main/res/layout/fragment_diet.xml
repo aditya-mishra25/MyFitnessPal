@@ -144,7 +144,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="match_parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -155,9 +155,10 @@
                     android:id="@+id/pie1"
                     android:layout_width="210dp"
                     android:layout_height="190dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/pie3"
+                    app:layout_constraintEnd_toStartOf="@+id/pie2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -165,11 +166,7 @@
                     android:id="@+id/pie2"
                     android:layout_width="210dp"
                     android:layout_height="190dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/pie1"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -178,11 +175,10 @@
                     android:id="@+id/pie3"
                     android:layout_width="210dp"
                     android:layout_height="190dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="30dp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/pie4"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/pie1" />
 
@@ -190,11 +186,7 @@
                     android:id="@+id/pie4"
                     android:layout_width="210dp"
                     android:layout_height="190dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_marginBottom="30dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
