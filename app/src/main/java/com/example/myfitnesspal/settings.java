@@ -14,13 +14,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +45,8 @@ public class settings extends Fragment {
     FirebaseAuth.AuthStateListener mAuthStateListener;
     Switch notification;
     DatabaseReference fdb;
+    EditText oldpass,newpass;
+    Button update;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -68,33 +77,6 @@ public class settings extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-//        final SharedPreferences.Editor editor = sharedPref.edit();
-//        fdb.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                String value = snapshot.child("00 toggle").getValue().toString();
-//                if (value == "True"){
-//                    editor.putBoolean("switchValue", true).commit();
-//                    notification.setChecked(true);
-//                }
-//                else{
-//                    editor.putBoolean("switchValue", false).commit();
-//                    notification.setChecked(false);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//
-//    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -135,7 +117,61 @@ public class settings extends Fragment {
                 }
             }
         });
+
+        oldpass = (EditText) getView().findViewById(R.id.oldpassword);
+        newpass = (EditText) getView().findViewById(R.id.newpassword);
+        update = (Button) getView().findViewById(R.id.updatepassword);
+
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String old = oldpass.getText().toString();
+                final String newPass = newpass.getText().toString();
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String email = user.getEmail();
+                AuthCredential credential = EmailAuthProvider.getCredential(email, old);
+                user.reauthenticate(credential)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    user.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                oldpass.setText("");
+                                                newpass.setText("");
+                                                hideKeyBoard();
+                                                Toast.makeText(getActivity(),"Your password is updated successfully",Toast.LENGTH_LONG).show();
+                                            } else {
+                                                oldpass.setText("");
+                                                newpass.setText("");
+                                                hideKeyBoard();
+                                                Toast.makeText(getActivity(),"Error while resetting password",Toast.LENGTH_LONG).show();
+
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    oldpass.setText("");
+                                    newpass.setText("");
+                                    hideKeyBoard();
+                                    Toast.makeText(getActivity(),"Authentication Failed",Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+            }
+        });
+
     }
+    public void hideKeyBoard() {
+        View view1 = getActivity().getCurrentFocus();
+        if(view1 != null){
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
+        }
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

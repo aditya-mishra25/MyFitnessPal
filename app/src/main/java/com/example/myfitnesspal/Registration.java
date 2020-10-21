@@ -245,9 +245,16 @@ public class Registration extends AppCompatActivity {
                                                                                    myRef.child("age").setValue(age.getText().toString());
                                                                                    myRef.child("height").setValue(height.getText().toString());
                                                                                    myRef.child("weight").setValue(weight.getText().toString());
-                                                                                   final int bmi = Integer.parseInt(weight.getText().toString())/(Integer.parseInt(height.getText().toString()))^2;
+                                                                                   int w = Integer.parseInt(weight.getText().toString());
+                                                                                   int h =(Integer.parseInt(height.getText().toString()));
+                                                                                   final int bmi = (w)/((h/100)^2);
                                                                                    myRef.child("bmi").setValue(bmi);
                                                                                    Toast.makeText(Registration.this,"Registration Success", LENGTH_LONG).show();
+
+                                                                                   DatabaseReference waterRef = database.getReference("Water");
+                                                                                   DatabaseReference water = waterRef.child(uid);
+                                                                                   water.child("00 toggle").setValue("True");
+                                                                                   water.child("target").setValue(500);
                                                                                    startActivity(new Intent(getApplicationContext(),LoginPage.class));
 
                                                                                }

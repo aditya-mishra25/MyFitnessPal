@@ -231,58 +231,61 @@ public class water extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() != null) {
                         arr = (HashMap<String, Integer>) dataSnapshot.getValue();
-                        TreeMap<String, Integer> sorted = new TreeMap<>();
-                        sorted.putAll(arr);
-                        for(Map.Entry<String, Integer> entry:sorted.entrySet()){
-                            System.out.println("Key="+entry.getKey()+", Value="+entry.getValue());
-                        }
-                        System.out.println("TreeMap "+sorted);
-
-                        Log.d("array", String.valueOf(dataSnapshot.getValue()));
-                        String X[] = sorted.keySet().toArray(new String[0]);
-                        Collection<Integer> Y =sorted.values();
-                        Long[] y = Y.toArray(new Long[0]);
-                        System.out.println("hashmap"+X[0]+" "+X[1]);
-                        System.out.println("hashmap"+y[0]+" "+y[1]);
+                        arr.remove("00 toggle");
+                        arr.remove("target");
+                        if(arr.size()>2){
+                            TreeMap<String, Integer> sorted = new TreeMap<>();
+                            sorted.putAll(arr);
+                            for(Map.Entry<String, Integer> entry:sorted.entrySet()){
+                                System.out.println("Key="+entry.getKey()+", Value="+entry.getValue());
+                            }
+                            System.out.println("TreeMap "+sorted);
+                            Log.d("array", String.valueOf(dataSnapshot.getValue()));
+                            String X[] = sorted.keySet().toArray(new String[0]);
+                            Collection<Integer> Y =sorted.values();
+                            Long[] y = Y.toArray(new Long[0]);
+                            System.out.println("hashmap"+X[0]+" "+X[1]);
+                            System.out.println("hashmap"+y[0]+" "+y[1]);
 
 //                        lineChart = (LineChart) getView().findViewById(R.id.Linechart);
 
-                        XAxis xAxis = lineChart.getXAxis();
-                        YAxis yAxis = lineChart.getAxisLeft();
-                        XAxis.XAxisPosition position = XAxis.XAxisPosition.BOTTOM;
-                        xAxis.setPosition(position);
-                        xAxis.enableGridDashedLine(2f, 7f, 0f);
-                        xAxis.setAxisMaximum(5f);
-                        xAxis.setAxisMinimum(0f);
-                        xAxis.setLabelCount(6, true);
-                        xAxis.setGranularityEnabled(true);
-                        xAxis.setGranularity(7f);
+                            XAxis xAxis = lineChart.getXAxis();
+                            YAxis yAxis = lineChart.getAxisLeft();
+                            XAxis.XAxisPosition position = XAxis.XAxisPosition.BOTTOM;
+                            xAxis.setPosition(position);
+                            xAxis.enableGridDashedLine(2f, 7f, 0f);
+                            xAxis.setAxisMaximum(5f);
+                            xAxis.setAxisMinimum(0f);
+                            xAxis.setLabelCount(6, true);
+                            xAxis.setGranularityEnabled(true);
+                            xAxis.setGranularity(7f);
 //                        xAxis.setLabelRotationAngle(315f);
 
-                        lineChart.setDragEnabled(true);
-                        lineChart.setScaleEnabled(false);
+                            lineChart.setDragEnabled(true);
+                            lineChart.setScaleEnabled(false);
 
-                        yvalues = new ArrayList<>();
-                        for(int i=0; i<(X.length-1); i++){
-                            yvalues.add(new Entry(i,y[i]));
-                        }
+                            yvalues = new ArrayList<>();
+                            for(int i=0; i<(X.length-1); i++){
+                                yvalues.add(new Entry(i,y[i]));
+                            }
 //                        yvalues.add(new Entry(0,60f));
 
-                        LineDataSet set1 = new LineDataSet(yvalues,"Water Intake Level");
-                        set1.setFillAlpha(110);
-                        ArrayList<LineDataSet> dataSets = new ArrayList<>();
-                        dataSets.add(set1);
+                            LineDataSet set1 = new LineDataSet(yvalues,"Water Intake Level");
+                            set1.setFillAlpha(110);
+                            ArrayList<LineDataSet> dataSets = new ArrayList<>();
+                            dataSets.add(set1);
 
-                        lineChart.getDescription().setEnabled(true);
-                        Description description = new Description();
+                            lineChart.getDescription().setEnabled(true);
+                            Description description = new Description();
 
-                        description.setText("Last 7 Days");
-                        description.setTextSize(15f);
+                            description.setText("Last 7 Days");
+                            description.setTextSize(15f);
 
-                        lineChart.setDescription(description);
+                            lineChart.setDescription(description);
 
-                        LineData data = new LineData(set1);
-                        lineChart.setData(data);
+                            LineData data = new LineData(set1);
+                            lineChart.setData(data);
+                        }
                     }
                 }
 

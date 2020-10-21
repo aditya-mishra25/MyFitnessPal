@@ -74,6 +74,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <EditText
+                        android:id="@+id/oldpassword"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="Enter Old Password"
@@ -82,6 +83,7 @@
                     </EditText>
 
                     <EditText
+                        android:id="@+id/newpassword"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="textPassword"
@@ -90,7 +92,7 @@
                     </EditText>
 
                     <Button
-
+                        android:id="@+id/updatepassword"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_width="match_parent"
