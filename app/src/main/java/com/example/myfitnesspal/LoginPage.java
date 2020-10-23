@@ -66,6 +66,7 @@ public class LoginPage extends AppCompatActivity {
                     if (password.getText().toString().isEmpty()) {
                         password.setError(" Invalid Password ");
                     } else {
+
                         if (password.getText().toString().trim().matches(pass)) {
 //                        email.setError( " Invalid Password " );
 //                        Toast.makeText(getApplicationContext(),"valid email address",Toast.LENGTH_SHORT).show();
