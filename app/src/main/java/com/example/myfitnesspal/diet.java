@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,7 +22,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
+
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
@@ -100,11 +99,13 @@ public class diet<cal_db> extends Fragment {
     int carbo_empty;
     int carbo_target;
 
+
     //variables created to fetch values from database eg()
     public int cal_db;
     int pro_db;
     int fat_db;
     int carbo_db;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -173,7 +174,9 @@ public class diet<cal_db> extends Fragment {
 //        dataSet.setColor(255,67);
         int x=200;
         int y=800;
+
         pieChart.setCenterText("Calories"+"\n Consumed - "+x+"\n left - "+y);
+
 
         pieChart.setCenterTextSize(10f);
         dataSet.setColors(Color.rgb(255,187,0),Color.rgb(237,236,237));
@@ -201,6 +204,7 @@ public class diet<cal_db> extends Fragment {
         yValues1.add(new PieEntry(40));
         yValues1.add(new PieEntry(60));
 
+
         dataSet1 = new PieDataSet(yValues, "Proteins");
 
         dataSet1.setSliceSpace(2f);
@@ -209,6 +213,7 @@ public class diet<cal_db> extends Fragment {
 
         int x1=200;
         int y1=800;
+
 
         pie2.setCenterText("Proteins"+"\n Consumed - "+x1+"\n left - "+y1);
 
@@ -247,6 +252,7 @@ public class diet<cal_db> extends Fragment {
 
         pie3.setCenterText("Fats"+"\n Consumed - "+x2+"\n left - "+y2);
 
+
         pie3.setCenterTextSize(10f);
         dataSet11.setColors(Color.rgb(191,0,254),Color.rgb(237,236,237));
         pie3.getLegend().setEnabled(false);
@@ -279,6 +285,7 @@ public class diet<cal_db> extends Fragment {
 
         int x3=200;
         int y3=800;
+
 
         pie4.setCenterText("Carbohydrates"+"\n Consumed - "+x3+"\n left - "+y3);
 
@@ -535,7 +542,7 @@ public class diet<cal_db> extends Fragment {
 
                 final AlertDialog alertDialog = builder.create();
                 alertDialog.show();
-                String food=ac.getText().toString();
+                final String food=ac.getText().toString();
                 Log.d("Food",food);
                 // code edited
                 DatabaseReference dietDetails = firebaseDatabase.getReference("Diet Details").child(food);
@@ -558,7 +565,7 @@ public class diet<cal_db> extends Fragment {
                                     int p=Integer.parseInt(quan.getText().toString());
                                     int qtyy=cal_db*p;
                                     Log.d("Car", String.valueOf(qtyy));
-                                    AddFood();
+                                    AddFood(food);
 //                            add values
 
                                     updateCalories(qtyy);
@@ -643,7 +650,58 @@ public class diet<cal_db> extends Fragment {
                     }
                 });
 
-//
+
+                add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final String qty = quan.getText().toString();
+                        if(qty.equals("")){
+                            Toast.makeText(getActivity(),"Please input some value",Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            Log.d("Add",qty+"ml");
+                            int qtyy=Integer.parseInt(qty);
+//                            add values
+                            updateCalories(qtyy);
+                            alertDialog.dismiss();//change code here
+                        }
+
+                        if(qty.equals("")){
+                            Toast.makeText(getActivity(),"Please input some value",Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            Log.d("Add",qty+"ml");
+                            int qtyy=Integer.parseInt(qty);
+                            updateproteins(qtyy);
+                            alertDialog.dismiss();//change code here
+                        }
+                        if(qty.equals("")){
+                            Toast.makeText(getActivity(),"Please input some value",Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            Log.d("Add",qty+"ml");
+                            int qtyy=Integer.parseInt(qty);
+                            updatefats(qtyy);
+                            alertDialog.dismiss();//change code here
+                        }
+                        if(qty.equals("")){
+                            Toast.makeText(getActivity(),"Please input some value",Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            Log.d("Add",qty+"ml");
+                            int qtyy=Integer.parseInt(qty);
+                            updatecarbs(qtyy);
+                            alertDialog.dismiss();//change code here
+                        }
+                    }
+                });
+//                cancel.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        alertDialog.dismiss();
+//                    }
+//                });
+
             }
         });
 
@@ -652,7 +710,7 @@ public class diet<cal_db> extends Fragment {
         chart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String food=ac.getText().toString();
+               final  String food=ac.getText().toString();
                 final ViewGroup viewGroup = getView().findViewById(android.R.id.content);
                 final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.foodchart, viewGroup, false);
 
@@ -773,45 +831,44 @@ public class diet<cal_db> extends Fragment {
 
         return currentuser;
     }
-    public void AddFood(){
+
+    public void AddFood( String food){
         firebaseAuth = FirebaseAuth.getInstance();
         final String currentuser  = firebaseAuth.getUid();
         Log.d("UID",currentuser);
         firebaseDatabase = FirebaseDatabase.getInstance();
-//        final DatabaseReference br = firebaseDatabase.getReference("AddFood").child(currentuser).child("breakfast");
-//        final DatabaseReference af = firebaseDatabase.getReference("AddFood").child(currentuser).child("afternoon");
-//        final DatabaseReference ev = firebaseDatabase.getReference("AddFood").child(currentuser).child("evening");
-//        final DatabaseReference ni = firebaseDatabase.getReference("AddFood").child(currentuser).child("night");
-        final String dt = date();
-
+        final DatabaseReference br = firebaseDatabase.getReference("Diet").child(currentuser).child("consumed");
+        String date = date();
         String currentTime=new SimpleDateFormat("HH:mm:ss",Locale.getDefault()).format(new Date());
         Log.d("Time",currentTime);
-        int mor=12;
-        int aft=16;
-        int x=5;
-        int evn=19;
+
+//        int mor=12;
+//        int aft=16;
+//        int x=5;
+//        int evn=19;
 //        Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("GMT -4:00"));
 //        int currenthr=cal.get(Calendar.HOUR);
-        Date dt1=new Date();
-        int hr=dt1.getHours();
-        Log.d("Parthuu", String.valueOf(hr));
-        if(hr>x &&hr<mor){
-            Log.d("Parthuu", "Morning");
-        }
-        if(hr>=mor && hr <aft){
-            Log.d("Parthuu", "Afternoon");
-        }
-        if(hr >=aft && hr <evn){
-            Log.d("Parthuu", "Evening");
-
-        }
-        if(hr >=evn){
-            Log.d("Parthuu", "Night");
-        }
+//        Date dt1=new Date();
+//        int hr=dt1.getHours();
+//        Log.d("Parthuu", String.valueOf(hr));
+//        if(hr>x &&hr<mor){
+//            Log.d("Parthuu", "Morning");
+//        }
+//        if(hr>=mor && hr <aft){
+//            Log.d("Parthuu", "Afternoon");
+//        }
+//        if(hr >=aft && hr <evn){
+//            Log.d("Parthuu", "Evening");
+//
+//        }
+//        if(hr >=evn){
+//            Log.d("Parthuu", "Night");
+//        }
 
 
 
     }
+
 
 //calories
 
