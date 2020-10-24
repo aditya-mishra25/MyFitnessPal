@@ -130,7 +130,7 @@ public class water extends Fragment {
         //scrollview
         sc = (ScrollView) getView().findViewById(R.id.scroll);
         //PieChart
-        pieChart = (PieChart) getView().findViewById(R.id.pie);
+        pieChart = (PieChart) getView().findViewById(R.id.pie1);
         pieChart.setUsePercentValues(false);
         pieChart.getDescription().setEnabled(false);
         pieChart.setExtraOffsets(10,10,10,5);

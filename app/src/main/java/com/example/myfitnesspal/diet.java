@@ -3,10 +3,12 @@ package com.example.myfitnesspal;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -14,16 +16,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +36,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -45,6 +48,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -52,7 +56,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,16 +69,21 @@ public class diet<cal_db> extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     PieChart pieChart,pie2,pie3,pie4;
-    String[] basic={"Roti","Naan","Garlic Naam"};
+    String[] basic={"Roti","Naan","Garlic Naan","Butter Naan","Rice","Pasta","Pizza","Dal Fry",
+            "Dal Tadka","Jeera Rice","Paneer Peshawari","Mutter Paneer","Gulab Jamun","Noodles","Halva"};
     //    String[] p;
+    TextView t1,t2,t3;
     AutoCompleteTextView ac;
+    TableLayout table;
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
     CardView cv;
     PieDataSet dataSet1;
     String chartValue;
     EditText quan;
+    HashMap<String, Integer> arr;
     CardView v2;
+     AlertDialog.Builder builder;
     LineChart lineChart;
     SeekBar sb;
     Button plus,minus,add,cancel,chart;
@@ -93,12 +101,16 @@ public class diet<cal_db> extends Fragment {
     int carbo;
     int carbo_empty;
     int carbo_target;
+    TextView updateTarget;
+    Button gain,regular,lose;
+
 
     //variables created to fetch values from database eg()
     public int cal_db;
     int pro_db;
     int fat_db;
     int carbo_db;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -128,6 +140,7 @@ public class diet<cal_db> extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getFood();
         firebaseAuth = FirebaseAuth.getInstance();
         final String uid = DBconnection();
         cv =  getView().findViewById(R.id.cardView);
@@ -146,8 +159,7 @@ public class diet<cal_db> extends Fragment {
         pieChart.setHoleColor(Color.WHITE);
 //        pieChart.setHoleRadius(95f);
 //        pieChart.setTransparentCircleRadius(64f);
-        pieChart.setHoleRadius(70f);
-        pieChart.setTransparentCircleRadius(74f);
+
         pieChart.setHoleRadius(90f);
         pieChart.setTransparentCircleRadius(64f);
 //        pieChart.setEntryLabelColor(Color.BLACK);
@@ -169,11 +181,9 @@ public class diet<cal_db> extends Fragment {
         int x=200;
         int y=800;
 
-        pieChart.setCenterText("Diet Tracker");
-        pieChart.setCenterTextSize(25f);
-        dataSet.setColors(Color.rgb(255,187,0),Color.rgb(0,120,237),Color.rgb(255,120,0));
-        pieChart.getLegend().setEnabled(true);
-        pieChart.setDrawEntryLabels(false);
+        pieChart.setCenterText("Calories"+"\n Consumed - "+x+"\n left - "+y);
+
+
         pieChart.setCenterTextSize(10f);
         dataSet.setColors(Color.rgb(255,187,0),Color.rgb(237,236,237));
         pieChart.getLegend().setEnabled(false);
@@ -199,13 +209,19 @@ public class diet<cal_db> extends Fragment {
         ArrayList<PieEntry> yValues1 = new ArrayList<>();
         yValues1.add(new PieEntry(40));
         yValues1.add(new PieEntry(60));
+
+
         dataSet1 = new PieDataSet(yValues, "Proteins");
+
         dataSet1.setSliceSpace(2f);
         dataSet1.setSelectionShift(5f);
 //        pie2.setCenterText("Proteins");
 
         int x1=200;
         int y1=800;
+
+
+        pie2.setCenterText("Proteins"+"\n Consumed - "+x1+"\n left - "+y1);
 
         pie2.setCenterTextSize(10f);
         dataSet1.setColors(Color.rgb(0,191,254),Color.rgb(237,236,237));
@@ -239,7 +255,10 @@ public class diet<cal_db> extends Fragment {
 
         int x2=200;
         int y2=800;
-//        pie3.setCenterText("Fats"+"\n Consumed - "+x2+"\n left - "+y2);
+
+        pie3.setCenterText("Fats"+"\n Consumed - "+x2+"\n left - "+y2);
+
+
         pie3.setCenterTextSize(10f);
         dataSet11.setColors(Color.rgb(191,0,254),Color.rgb(237,236,237));
         pie3.getLegend().setEnabled(false);
@@ -272,7 +291,10 @@ public class diet<cal_db> extends Fragment {
 
         int x3=200;
         int y3=800;
-//        pie4.setCenterText("Carbohydrates"+"\n Consumed - "+x3+"\n left - "+y3);
+
+
+        pie4.setCenterText("Carbohydrates"+"\n Consumed - "+x3+"\n left - "+y3);
+
         pie4.setCenterTextSize(10f);
         dataSet111.setColors(Color.rgb(191,0,0),Color.rgb(237,236,237));
         pie4.getLegend().setEnabled(false);
@@ -283,7 +305,56 @@ public class diet<cal_db> extends Fragment {
 
         pie4.setData(pieData111);
 
+//Update target:
+        updateTarget = (TextView)  getView().findViewById(R.id.updateTarget2);
+        updateTarget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final ViewGroup viewGroup = getView().findViewById(android.R.id.content);
+                final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.update_target_diet, viewGroup, false);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(dialogView);
+                final AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                gain = dialogView.findViewById(R.id.Gain);
+                regular = dialogView.findViewById(R.id.Regular);
+                lose = dialogView.findViewById(R.id.Lose);
+                gain.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final DatabaseReference myRef = firebaseDatabase.getReference().child("Diet").child(uid).child("target");
+                        myRef.child("calories").setValue(3000);
+                        myRef.child("proteins").setValue(200);
+                        myRef.child("carbs").setValue(488);
+                        myRef.child("fats").setValue(177);
 
+                    }
+                });
+                regular.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final DatabaseReference myRef = firebaseDatabase.getReference().child("Diet").child(uid).child("target");
+                        myRef.child("calories").setValue(2200);
+                        myRef.child("proteins").setValue(200);
+                        myRef.child("carbs").setValue(488);
+                        myRef.child("fats").setValue(177);
+
+                    }
+                });
+                lose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final DatabaseReference myRef = firebaseDatabase.getReference().child("Diet").child(uid).child("target");
+                        myRef.child("calories").setValue(1200);
+                        myRef.child("proteins").setValue(200);
+                        myRef.child("carbs").setValue(488);
+                        myRef.child("fats").setValue(177);
+
+                    }
+                });
+            }
+
+        });
 
 
 
@@ -293,16 +364,18 @@ public class diet<cal_db> extends Fragment {
         final String date = date();
         firebaseDatabase = FirebaseDatabase.getInstance();
         Log.d("DATE",date);
-        final DatabaseReference myRef = firebaseDatabase.getReference().child("Diet").child(uid).child("calories");
+        final DatabaseReference myRef = firebaseDatabase.getReference().child("Diet").child(uid);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 myRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        cal_target=snapshot.child("target").getValue(Integer.class);
-                        cal_target=3000;
-                        cal=snapshot.child(date).getValue(Integer.class);
+                        cal_target=snapshot.child("target").child("calories").getValue(Integer.class);
+                        Log.d("cal target", String.valueOf(cal_target));
+//                        cal_target=3000;
+//                        uptarget();
+                        cal=snapshot.child("calories").child(date).getValue(Integer.class);
                         cal_empty=cal_target-cal;
 
                         Log.d("fetched2",String.valueOf(cal));
@@ -317,12 +390,18 @@ public class diet<cal_db> extends Fragment {
 //                        dataSet.setColors(Color.rgb(0,191,254),Color.rgb(237,236,237));
                         dataSet.setColors(Color.rgb(255,187,0),Color.rgb(237,236,237));
                         pieChart.getLegend().setEnabled(false);
-                        pieChart.setCenterText("Calories"+"\n Consumed - "+cal+"\n left - "+cal_empty);
+                        pieChart.setCenterText("Calories"+"\n Consumed - "+cal+"\n Left - "+cal_empty);
                         PieData pieData = new PieData((dataSet));
                         dataSet.setValueTextSize(0f);
                         dataSet.setValueTextColor(Color.LTGRAY);
 
                         pieChart.setData(pieData);
+                        if(cal>cal_target){
+                            ac.setEnabled(false);
+                        }
+                        else{
+                            ac.setEnabled(true);
+                        }
                     }
 
                     @Override
@@ -344,17 +423,17 @@ public class diet<cal_db> extends Fragment {
         final String date1 = date();
         firebaseDatabase = FirebaseDatabase.getInstance();
         Log.d("DATE",date1);
-        final DatabaseReference myRef1 = firebaseDatabase.getReference().child("Diet").child(uid).child("proteins");
+        final DatabaseReference myRef1 = firebaseDatabase.getReference().child("Diet").child(uid);
         myRef1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 myRef1.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        cal_target=snapshot.child("target").getValue(Integer.class);
-                        pro_target=3000;
-//                        pro=snapshot.child(date).getValue(Integer.class);
+                        pro_target=snapshot.child("target").child("proteins").getValue(Integer.class);
+                        pro=snapshot.child("proteins").child(date).getValue(Integer.class);
                         pro_empty=pro_target-pro;
+
 
                         Log.d("fetched2",String.valueOf(pro));
                         final ArrayList<PieEntry> yValues = new ArrayList<>();
@@ -369,12 +448,18 @@ public class diet<cal_db> extends Fragment {
 //                        dataSet.setColors(Color.rgb(255,187,0),Color.rgb(237,236,237));
                         dataSet.setColors(Color.rgb(0,191,254),Color.rgb(237,236,237));
                         pie2.getLegend().setEnabled(false);
-                        pie2.setCenterText("Proteins"+"\n Consumed - "+pro+"\n left - "+pro_empty);
+                        pie2.setCenterText("Proteins"+"\n Consumed - "+pro+"\n Left - "+pro_empty);
                         PieData pieData = new PieData((dataSet));
                         dataSet.setValueTextSize(0f);
                         dataSet.setValueTextColor(Color.LTGRAY);
-
+                        ac.setText("");
                         pie2.setData(pieData);
+                        if(pro>pro_target){
+                            ac.setEnabled(false);
+                        }
+                        else{
+                            ac.setEnabled(true);
+                        }
                     }
 
                     @Override
@@ -397,17 +482,16 @@ public class diet<cal_db> extends Fragment {
         final String date2 = date();
         firebaseDatabase = FirebaseDatabase.getInstance();
         Log.d("DATE",date2);
-        final DatabaseReference myRef2 = firebaseDatabase.getReference().child("Diet").child(uid).child("fats");
+        final DatabaseReference myRef2 = firebaseDatabase.getReference().child("Diet").child(uid);
         myRef2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 myRef2.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        cal_target=snapshot.child("target").getValue(Integer.class);
-                        fat_target=3000;
-//                        pro=snapshot.child(date).getValue(Integer.class);
-                        fat_empty=pro_target-pro;
+                        fat_target=snapshot.child("target").child("fats").getValue(Integer.class);
+                        fat=snapshot.child("fats").child(date).getValue(Integer.class);
+                        fat_empty=fat_target-fat;
 
                         Log.d("fetched2",String.valueOf(fat));
                         final ArrayList<PieEntry> yValues = new ArrayList<>();
@@ -426,6 +510,12 @@ public class diet<cal_db> extends Fragment {
                         dataSet.setValueTextColor(Color.LTGRAY);
 
                         pie3.setData(pieData);
+                        if(fat>fat_target){
+                            ac.setEnabled(false);
+                        }
+                        else{
+                            ac.setEnabled(true);
+                        }
                     }
 
                     @Override
@@ -444,22 +534,20 @@ public class diet<cal_db> extends Fragment {
 
 
 
-
-//        carbo
+//carbs
         final String date3 = date();
         firebaseDatabase = FirebaseDatabase.getInstance();
         Log.d("DATE",date3);
-        final DatabaseReference myRef3 = firebaseDatabase.getReference().child("Diet").child(uid).child("carbs");
+        final DatabaseReference myRef3 = firebaseDatabase.getReference().child("Diet").child(uid);
         myRef3.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 myRef3.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        cal_target=snapshot.child("target").getValue(Integer.class);
-                        carbo_target=3000;
-//                        pro=snapshot.child(date).getValue(Integer.class);
-                        carbo_empty=pro_target-pro;
+                        carbo_target=snapshot.child("target").child("carbs").getValue(Integer.class);
+                        carbo=snapshot.child("carbs").child(date).getValue(Integer.class);
+                        carbo_empty=carbo_target-carbo;
 
                         Log.d("fetched2",String.valueOf(carbo));
                         final ArrayList<PieEntry> yValues = new ArrayList<>();
@@ -479,6 +567,12 @@ public class diet<cal_db> extends Fragment {
                         dataSet.setValueTextColor(Color.LTGRAY);
 
                         pie4.setData(pieData);
+                        if(carbo>carbo_target){
+                            ac.setEnabled(false);
+                        }
+                        else{
+                            ac.setEnabled(true);
+                        }
                     }
 
                     @Override
@@ -518,7 +612,15 @@ public class diet<cal_db> extends Fragment {
         ac.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String food=ac.getText().toString();
+                final ViewGroup viewGroup = getView().findViewById(android.R.id.content);
+                final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.add_diet_quant, viewGroup, false);
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(dialogView);
+
+                final AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                final String food=ac.getText().toString();
                 Log.d("Food",food);
                 // code edited
                 DatabaseReference dietDetails = firebaseDatabase.getReference("Diet Details").child(food);
@@ -529,8 +631,61 @@ public class diet<cal_db> extends Fragment {
                         pro_db = snapshot.child("proteins").getValue(Integer.class);
                         carbo_db = snapshot.child("carbs").getValue(Integer.class);
                         fat_db = snapshot.child("fats").getValue(Integer.class);
+                        add.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                final String qty = quan.getText().toString();
+                                if(qty.equals("")){
+                                    Toast.makeText(getActivity(),"Please input some value",Toast.LENGTH_LONG).show();
+                                }
+                                else{
+                                    Log.d("Add",qty+"ml");
+                                    int p=Integer.parseInt(quan.getText().toString());
+                                    int qtyy=cal_db*p;
 
-                        System.out.println(cal_db+" "+pro_db+" "+carbo_db+" "+fat_db);
+                                    Log.d("Car", String.valueOf(qtyy));
+                                    AddFood(food);
+//                            add values
+
+                                    updateCalories(qtyy);
+                                    alertDialog.dismiss();//change code here
+                                }
+
+                                if(qty.equals("")){
+                                    Toast.makeText(getActivity(),"Please input some value",Toast.LENGTH_LONG).show();
+                                }
+                                else{
+                                    Log.d("Add",qty+"ml");
+                                    int p=Integer.parseInt(quan.getText().toString());
+                                    int qtyy=pro_db*p;
+                                    updateproteins(qtyy);
+                                    alertDialog.dismiss();//change code here
+                                }
+                                if(qty.equals("")){
+                                    Toast.makeText(getActivity(),"Please input some value",Toast.LENGTH_LONG).show();
+                                }
+                                else{
+                                    Log.d("Add",qty+"ml");
+                                    int p=Integer.parseInt(quan.getText().toString());
+                                    int qtyy=fat_db*p;
+                                    updatefats(qtyy);
+                                    alertDialog.dismiss();//change code here
+                                }
+                                if(qty.equals("")){
+                                    Toast.makeText(getActivity(),"Please input some value",Toast.LENGTH_LONG).show();
+                                }
+                                else{
+                                    Log.d("Add",qty+"ml");
+                                    int p=Integer.parseInt(quan.getText().toString());
+                                    int qtyy=carbo_db*p;
+
+                                    updatecarbs(qtyy);
+                                    alertDialog.dismiss();//change code here
+                                }
+                            }
+                        });
+
+//                        System.out.println(cal_db+" "+pro_db+" "+carbo_db+" "+fat_db);
                     }
 
                     @Override
@@ -538,16 +693,8 @@ public class diet<cal_db> extends Fragment {
 
                     }
                 });
-//                Log.d("Claories DD", String.valueOf(cal_db));
-                //
-                final ViewGroup viewGroup = getView().findViewById(android.R.id.content);
-                final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.add_diet_quant, viewGroup, false);
 
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setView(dialogView);
-
-                final AlertDialog alertDialog = builder.create();
-                alertDialog.show();
+//
 
 
                 add = dialogView.findViewById(R.id.add);
@@ -581,6 +728,7 @@ public class diet<cal_db> extends Fragment {
                         }
                     }
                 });
+
 
                 add.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -632,22 +780,16 @@ public class diet<cal_db> extends Fragment {
 //                        alertDialog.dismiss();
 //                    }
 //                });
+
             }
         });
 
 
-
-
-//
-//
-//        addFood=getView().findViewById(R.id.button3);
-//
-//
         chart=getView().findViewById(R.id.chart);
         chart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String food=ac.getText().toString();
+               final  String food=ac.getText().toString();
                 final ViewGroup viewGroup = getView().findViewById(android.R.id.content);
                 final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.foodchart, viewGroup, false);
 
@@ -661,12 +803,8 @@ public class diet<cal_db> extends Fragment {
             }
         });
 
-
-
-
-
-
    }
+
     //  Date()
     public String date(){
         Date c = Calendar.getInstance().getTime();
@@ -769,6 +907,97 @@ public class diet<cal_db> extends Fragment {
         return currentuser;
     }
 
+    public void AddFood( String food){
+        firebaseAuth = FirebaseAuth.getInstance();
+        final String currentuser  = firebaseAuth.getUid();
+        Log.d("UID",currentuser);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference br = firebaseDatabase.getReference("Diet").child(currentuser).child("consumed");
+        String date = date();
+        String currentTime=new SimpleDateFormat("HH:mm:ss",Locale.getDefault()).format(new Date());
+        Log.d("Time",currentTime);
+        DatabaseReference dateref = br.child(date);
+        dateref.child(currentTime).setValue(food);
+
+    }
+    public void getFood(){
+        table = (TableLayout)getView().findViewById(R.id.table);
+       arr = new HashMap<String, Integer>();
+        firebaseAuth = FirebaseAuth.getInstance();
+        final String currentuser  = firebaseAuth.getUid();
+        Log.d("UID",currentuser);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference br = firebaseDatabase.getReference("Diet").child(currentuser).child("consumed");
+        String date = date();
+        DatabaseReference dateref = br.child(date);
+        final Query chatQuery = dateref.orderByKey().limitToLast(100);
+        chatQuery.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue()!=null){
+                    arr = (HashMap<String, Integer>) snapshot.getValue();
+                    TreeMap<String, Integer> sorted = new TreeMap<>();
+                    sorted.putAll(arr);
+                    for(Map.Entry<String, Integer> entry:sorted.entrySet()){
+                        System.out.println("Key="+entry.getKey()+", Value="+entry.getValue());
+                    }
+                    Set keys = sorted.keySet();
+//                    String key[] = new String[arr.size()];
+                    ArrayList <String> key=new ArrayList<>();
+                    Iterator ii=keys.iterator();
+
+                    while(ii.hasNext()){
+//                        key[k]=String.valueOf(ii);
+                        key.add(String.valueOf(ii.next()));
+                    }
+
+                    Collection  vals = sorted.values();
+                    ArrayList <String> val=new ArrayList<>();
+                    Iterator ij=vals.iterator();
+
+                    while(ij.hasNext()){
+                        val.add(String.valueOf(ij.next()));
+                    }
+
+                    Log.d("keys", String.valueOf(key));
+                    Log.d("food", String.valueOf(val));
+                    Collection values = arr.values();
+
+
+//
+                    for(int i=0;i<arr.size();i++){
+                        TableRow tr=new TableRow(getActivity());
+                        TableRow.LayoutParams lp=new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+//                        tr.setLayoutParams(lp);
+                        lp.setMargins(10,10,10,10);
+                        String x="Today at time "+ key.get(i) +" you had \""+val.get(i)+"\"";
+                        t1= new TextView(getActivity());
+//                        t2 = new TextView(getActivity());
+//                        t3 = new TextView(getActivity());
+                        t1.setText(x);
+//                        t3.setText(" ");
+//                        t2.setText(val.get(i));
+                        tr.addView(t1);
+//                        tr.addView(t3);
+//                        tr.addView(t2);
+                        tr.setLayoutParams(lp);
+                        table.addView(tr,i);
+                    }
+                    Log.d("Hashmap", String.valueOf(arr));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+
+
 //calories
 
     public void updateCalories(int qty){
@@ -779,13 +1008,12 @@ public class diet<cal_db> extends Fragment {
         final String date = date();
         firebaseDatabase = FirebaseDatabase.getInstance();
         Log.d("DATE",date);
-        DatabaseReference myRef = firebaseDatabase.getReference().child("Diet").child(uid).child("calories");
+        DatabaseReference myRef = firebaseDatabase.getReference().child("Diet").child(uid);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                cal = snapshot.child(date).getValue(Integer.class);
-//                cal_target = snapshot.child("target").getValue(Integer.class);
-                cal_target=2000;
+                cal_target=snapshot.child("target").child("calories").getValue(Integer.class);
+                cal=snapshot.child("calories").child(date).getValue(Integer.class);
                 Log.d("fetched",String.valueOf(cal));
             }
             @Override
@@ -794,9 +1022,13 @@ public class diet<cal_db> extends Fragment {
             }
         });
         cal =cal+cal1;
+        if(cal>=cal_target){
+            cal = cal_target;
+            Toast.makeText(getActivity(), "You are consuming more CALORIES than your targeted value!", Toast.LENGTH_SHORT).show();
+        }
 
         if(qty>0){
-            myRef.child(date).setValue(cal);
+            myRef.child("calories").child(date).setValue(cal);
         }
         values.add(new PieEntry(cal));
         values.add(new PieEntry(cal_empty));
@@ -825,13 +1057,12 @@ public class diet<cal_db> extends Fragment {
         final String date = date();
         firebaseDatabase = FirebaseDatabase.getInstance();
         Log.d("DATE",date);
-        DatabaseReference myRef = firebaseDatabase.getReference().child("Diet").child(uid).child("proteins");
+        DatabaseReference myRef = firebaseDatabase.getReference().child("Diet").child(uid);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                pro = snapshot.child(date).getValue(Integer.class);
-//                pro_target = snapshot.child("target").getValue(Integer.class);
-                pro_target=2000;
+                pro_target=snapshot.child("target").child("proteins").getValue(Integer.class);
+                pro=snapshot.child("proteins").child(date).getValue(Integer.class);
                 Log.d("fetched",String.valueOf(pro));
             }
             @Override
@@ -840,9 +1071,15 @@ public class diet<cal_db> extends Fragment {
             }
         });
         pro =pro+cal11;
+        Log.d("aditya", String.valueOf(pro));
 
+        if(pro>=pro_target){
+            pro = pro_target;
+//            ac.setEnabled(false);
+            Toast.makeText(getActivity(), "You are consuming more PROTEINS than your targeted value!", Toast.LENGTH_SHORT).show();
+        }
         if(qty>0){
-            myRef.child(date).setValue(pro);
+            myRef.child("proteins").child(date).setValue(pro);
         }
         values.add(new PieEntry(pro));
         values.add(new PieEntry(pro_empty));
@@ -874,13 +1111,12 @@ public class diet<cal_db> extends Fragment {
         final String date = date();
         firebaseDatabase = FirebaseDatabase.getInstance();
         Log.d("DATE",date);
-        DatabaseReference myRef = firebaseDatabase.getReference().child("Diet").child(uid).child("fats");
+        DatabaseReference myRef = firebaseDatabase.getReference().child("Diet").child(uid);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                fat = snapshot.child(date).getValue(Integer.class);
-//                cal_target = snapshot.child("target").getValue(Integer.class);
-                fat_target=2000;
+                fat_target=snapshot.child("target").child("fats").getValue(Integer.class);
+                fat=snapshot.child("fats").child(date).getValue(Integer.class);
                 Log.d("fetched",String.valueOf(fat));
             }
             @Override
@@ -890,8 +1126,13 @@ public class diet<cal_db> extends Fragment {
         });
         fat =fat+cal1;
 
+
+        if(fat>=fat_target){
+            fat = fat_target;
+            Toast.makeText(getActivity(), "You are consuming more FATS than your targeted value!", Toast.LENGTH_SHORT).show();
+        }
         if(qty>0){
-            myRef.child(date).setValue(fat);
+            myRef.child("fats").child(date).setValue(fat);
         }
         values.add(new PieEntry(fat));
         values.add(new PieEntry(fat_empty));
@@ -919,13 +1160,12 @@ public class diet<cal_db> extends Fragment {
         final String date = date();
         firebaseDatabase = FirebaseDatabase.getInstance();
         Log.d("DATE",date);
-        DatabaseReference myRef = firebaseDatabase.getReference().child("Diet").child(uid).child("carbs");
+        DatabaseReference myRef = firebaseDatabase.getReference().child("Diet").child(uid);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                carbo = snapshot.child(date).getValue(Integer.class);
-//                cal_target = snapshot.child("target").getValue(Integer.class);
-                carbo_target=2000;
+                carbo_target=snapshot.child("target").child("carbs").getValue(Integer.class);
+                carbo=snapshot.child("carbs").child(date).getValue(Integer.class);
                 Log.d("fetched",String.valueOf(carbo));
             }
             @Override
@@ -935,8 +1175,13 @@ public class diet<cal_db> extends Fragment {
         });
         carbo =carbo+cal1;
 
+        if(carbo>=carbo_target){
+            carbo = carbo_target;
+            Toast.makeText(getActivity(), "You are consuming more CARBOHYDRATES than your targeted value!", Toast.LENGTH_SHORT).show();
+        }
+
         if(qty>0){
-            myRef.child(date).setValue(carbo);
+            myRef.child("carbs").child(date).setValue(carbo);
         }
         values.add(new PieEntry(carbo));
         values.add(new PieEntry(carbo_empty));
