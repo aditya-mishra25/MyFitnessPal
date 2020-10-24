@@ -1,5 +1,6 @@
 package com.example.myfitnesspal;
 
+import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -8,11 +9,15 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +40,9 @@ public class profile extends Fragment {
     FirebaseAuth auth;
     FirebaseDatabase db;
     CardView card;
+    FloatingActionButton edit;
+    Button button, add, cncl;
+    EditText age_ed,height_ed, weight_ed;
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -44,10 +52,11 @@ public class profile extends Fragment {
         bmi =(TextView) getView().findViewById(R.id.bmi);
         age = (TextView) getView().findViewById(R.id.age);
         card = (CardView) getView().findViewById(R.id.card);
+        edit =(FloatingActionButton) getView().findViewById(R.id.edit);
 
         db = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
-        String uid = auth.getUid();
+        final String uid = auth.getUid();
         DatabaseReference user = db.getReference("Users").child(uid);
 
         user.addValueEventListener(new ValueEventListener() {
@@ -83,13 +92,85 @@ public class profile extends Fragment {
                     bmi.setText("Extremely-obese");
                     card.setCardBackgroundColor(rgb(254,0,0));
                 }
-
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final ViewGroup viewGroup = getView().findViewById(android.R.id.content);
+                final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.update_profile, viewGroup, false);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(dialogView);
+                final AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                age_ed = dialogView.findViewById(R.id.age);
+                height_ed = dialogView.findViewById(R.id.height);
+                weight_ed = dialogView.findViewById(R.id.weight);
+                add = dialogView.findViewById(R.id.add);
+                add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final String a = age_ed.getText().toString();
+                        final String h = height_ed.getText().toString();
+                        final String w = weight_ed.getText().toString();
+                        FirebaseDatabase fdb = FirebaseDatabase.getInstance();
+                        final DatabaseReference userUpdate = fdb.getReference("Users").child(uid);
+                        if(a.length()!=0){
+                            userUpdate.child("age").setValue(a);
+                        }
+                        if(h.length()!=0){
+                            userUpdate.child("height").setValue(h);
+                            userUpdate.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    String hei = snapshot.child("height").getValue(String.class);
+                                    String wei = snapshot.child("weight").getValue(String.class);
+                                    int he = Integer.parseInt(hei);
+                                    int we = Integer.parseInt(wei);
+                                    final int bmi = (we)/((he/100)^2);
+                                    userUpdate.child("bmi").setValue(bmi);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+                        if(w.length()!=0){
+                            userUpdate.child("weight").setValue(w);
+                            userUpdate.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    String hei = snapshot.child("height").getValue(String.class);
+                                    String wei = snapshot.child("weight").getValue(String.class);
+                                    int he = Integer.parseInt(hei);
+                                    int we = Integer.parseInt(wei);
+                                    final int bmi = (we)/((he/100)^2);
+                                    userUpdate.child("bmi").setValue(bmi);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+                        alertDialog.dismiss();
+                    }
+                });
+                cncl = dialogView.findViewById(R.id.del);
+                cncl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                    }
+                });
             }
         });
     }
