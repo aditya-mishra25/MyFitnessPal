@@ -227,14 +227,17 @@
         </androidx.cardview.widget.CardView>
 
 
-
         <Button
             android:id="@+id/button"
-            android:layout_width="160dp"
+            android:layout_width="wrap_content"
             android:layout_height="48dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
-            android:text="Weekly Report?"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/pill_bg"
+            android:text="Weekly Report?"
             android:textColor="#ffffff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

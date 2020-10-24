@@ -1,6 +1,7 @@
 package com.example.myfitnesspal;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -119,87 +120,93 @@ public class water extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //TextViews
-        achived = (TextView) getView().findViewById(R.id.achived);
-        target = (TextView) getView().findViewById(R.id.target);
-        updateTarget = (TextView)  getView().findViewById(R.id.updateTarget);
-        //cardview
         firebaseAuth = FirebaseAuth.getInstance();
-        final String uid = DBconnection();
-        cv = (CardView) getView().findViewById(R.id.card);
-        cv.setVisibility(View.GONE);
-        //scrollview
-        sc = (ScrollView) getView().findViewById(R.id.scroll);
-        //PieChart
-        pieChart = (PieChart) getView().findViewById(R.id.pie1);
-        pieChart.setUsePercentValues(false);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setExtraOffsets(10,10,10,5);
-        pieChart.setDragDecelerationFrictionCoef(0f);
-        pieChart.setTouchEnabled(false);
-        pieChart.setDrawHoleEnabled(true);
-        pieChart.setHoleColor(Color.WHITE);
-        pieChart.setHoleRadius(70f);
-        pieChart.setTransparentCircleRadius(74f);
-        pieChart.setCenterText("Water Tracker");
-        pieChart.setCenterTextSize(25f);
+        if (firebaseAuth.getCurrentUser() == null) {
+            Intent intent = new Intent(getActivity(), LoginPage.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        } else {
+            achived = (TextView) getView().findViewById(R.id.achived);
+            target = (TextView) getView().findViewById(R.id.target);
+            updateTarget = (TextView) getView().findViewById(R.id.updateTarget);
+            //cardview
+            final String uid = DBconnection();
+            cv = (CardView) getView().findViewById(R.id.card);
+            cv.setVisibility(View.GONE);
+            //scrollview
+            sc = (ScrollView) getView().findViewById(R.id.scroll);
+            //PieChart
+            pieChart = (PieChart) getView().findViewById(R.id.pie1);
+            pieChart.setUsePercentValues(false);
+            pieChart.getDescription().setEnabled(false);
+            pieChart.setExtraOffsets(10, 10, 10, 5);
+            pieChart.setDragDecelerationFrictionCoef(0f);
+            pieChart.setTouchEnabled(false);
+            pieChart.setDrawHoleEnabled(true);
+            pieChart.setHoleColor(Color.WHITE);
+            pieChart.setHoleRadius(70f);
+            pieChart.setTransparentCircleRadius(74f);
+            pieChart.setCenterText("Water Tracker");
+            pieChart.setCenterTextSize(25f);
 
-        final String date = date();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        Log.d("DATE",date);
-        final DatabaseReference myRef = firebaseDatabase.getReference().child("Water").child(uid);
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            final String date = date();
+            firebaseDatabase = FirebaseDatabase.getInstance();
+            Log.d("DATE", date);
+            final DatabaseReference myRef = firebaseDatabase.getReference().child("Water").child(uid);
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
 //                water = snapshot.child(date).getValue(Integer.class);
 //                Log.d("fetched",String.valueOf(water));
-                myRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        targetSet = snapshot.child("target").getValue(Integer.class);
-                        water = snapshot.child(date).getValue(Integer.class);
-                        target.setText(String.valueOf(targetSet));
-                        achived.setText(String.valueOf(water));
+                    myRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            targetSet = snapshot.child("target").getValue(Integer.class);
+                            water = snapshot.child(date).getValue(Integer.class);
+                            target.setText(String.valueOf(targetSet));
+                            achived.setText(String.valueOf(water));
 
-                        target.setText(String.valueOf(targetSet));
-                        empty = targetSet-water; // fetch the target value for empty
+                            target.setText(String.valueOf(targetSet));
+                            empty = targetSet - water; // fetch the target value for empty
 
-                        Log.d("fetched2",String.valueOf(water));
-                        final ArrayList<PieEntry> yValues = new ArrayList<>();
-                        yValues.add(new PieEntry(water));
-                        yValues.add(new PieEntry(empty));
-                        pieChart.animateY(1000, Easing.EaseInOutCubic);
+                            Log.d("fetched2", String.valueOf(water));
+                            final ArrayList<PieEntry> yValues = new ArrayList<>();
+                            yValues.add(new PieEntry(water));
+                            yValues.add(new PieEntry(empty));
+                            pieChart.animateY(1000, Easing.EaseInOutCubic);
 
-                        PieDataSet dataSet = new PieDataSet(yValues, "Water Tracker");
-                        dataSet.setSliceSpace(2f);
-                        dataSet.setSelectionShift(5f);
-                        dataSet.setColors(Color.rgb(0,191,254),Color.rgb(237,236,237));
-                        pieChart.getLegend().setEnabled(false);
+                            PieDataSet dataSet = new PieDataSet(yValues, "Water Tracker");
+                            dataSet.setSliceSpace(2f);
+                            dataSet.setSelectionShift(5f);
+                            dataSet.setColors(Color.rgb(0, 191, 254), Color.rgb(237, 236, 237));
+                            pieChart.getLegend().setEnabled(false);
 
-                        PieData pieData = new PieData((dataSet));
-                        dataSet.setValueTextSize(0f);
-                        dataSet.setValueTextColor(Color.LTGRAY);
+                            PieData pieData = new PieData((dataSet));
+                            dataSet.setValueTextSize(0f);
+                            dataSet.setValueTextColor(Color.LTGRAY);
 
-                        pieChart.setData(pieData);
+                            pieChart.setData(pieData);
 
-                        if (water == targetSet){
-                            glass.setEnabled(false);
-                            bottle.setEnabled(false);
-                            bigBottle.setEnabled(false);
+                            if (water == targetSet) {
+                                glass.setEnabled(false);
+                                bottle.setEnabled(false);
+                                bigBottle.setEnabled(false);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
+                        }
+                    });
 
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getActivity(),"Sorry there was some problem retrieving the data",Toast.LENGTH_LONG).show();
-            }
-        });
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getActivity(), "Sorry there was some problem retrieving the data", Toast.LENGTH_LONG).show();
+                }
+            });
 
 //        water = 0;
 //        empty = 5000-water; // fetch the target value for empty
@@ -221,31 +228,31 @@ public class water extends Fragment {
 //
 //        pieChart.setData(pieData);
 
-        //Line Graph
-        /////////////////////////////////////////////////////////////////////////
-        lineChart = (LineChart) getView().findViewById(R.id.Linechart);
-        final Query chatQuery = myRef.orderByKey().limitToLast(8);
-        chatQuery.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
+            //Line Graph
+            /////////////////////////////////////////////////////////////////////////
+            lineChart = (LineChart) getView().findViewById(R.id.Linechart);
+            final Query chatQuery = myRef.orderByKey().limitToLast(8);
+            chatQuery.addValueEventListener(new ValueEventListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.getValue() != null) {
                         arr = (HashMap<String, Integer>) dataSnapshot.getValue();
                         arr.remove("00 toggle");
                         arr.remove("target");
-                        if(arr.size()>2){
+                        if (arr.size() > 2) {
                             TreeMap<String, Integer> sorted = new TreeMap<>();
                             sorted.putAll(arr);
-                            for(Map.Entry<String, Integer> entry:sorted.entrySet()){
-                                System.out.println("Key="+entry.getKey()+", Value="+entry.getValue());
+                            for (Map.Entry<String, Integer> entry : sorted.entrySet()) {
+                                System.out.println("Key=" + entry.getKey() + ", Value=" + entry.getValue());
                             }
-                            System.out.println("TreeMap "+sorted);
+                            System.out.println("TreeMap " + sorted);
                             Log.d("array", String.valueOf(dataSnapshot.getValue()));
                             String X[] = sorted.keySet().toArray(new String[0]);
-                            Collection<Integer> Y =sorted.values();
+                            Collection<Integer> Y = sorted.values();
                             Long[] y = Y.toArray(new Long[0]);
-                            System.out.println("hashmap"+X[0]+" "+X[1]);
-                            System.out.println("hashmap"+y[0]+" "+y[1]);
+                            System.out.println("hashmap" + X[0] + " " + X[1]);
+                            System.out.println("hashmap" + y[0] + " " + y[1]);
 
 //                        lineChart = (LineChart) getView().findViewById(R.id.Linechart);
 
@@ -265,12 +272,12 @@ public class water extends Fragment {
                             lineChart.setScaleEnabled(false);
 
                             yvalues = new ArrayList<>();
-                            for(int i=0; i<(X.length-1); i++){
-                                yvalues.add(new Entry(i,y[i]));
+                            for (int i = 0; i < (X.length - 1); i++) {
+                                yvalues.add(new Entry(i, y[i]));
                             }
 //                        yvalues.add(new Entry(0,60f));
 
-                            LineDataSet set1 = new LineDataSet(yvalues,"Water Intake Level");
+                            LineDataSet set1 = new LineDataSet(yvalues, "Water Intake Level");
                             set1.setFillAlpha(110);
                             ArrayList<LineDataSet> dataSets = new ArrayList<>();
                             dataSets.add(set1);
@@ -295,143 +302,139 @@ public class water extends Fragment {
                 }
             });
 
-        //button
-        button = (Button) getView().findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (state==false){
-                    cv.setVisibility(View.VISIBLE);
-                    state = true;
-                    sc.scrollTo(0,sc.getBottom());//need to scroll down after onclick!
+            //button
+            button = (Button) getView().findViewById(R.id.button);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (state == false) {
+                        cv.setVisibility(View.VISIBLE);
+                        state = true;
+                        sc.scrollTo(0, sc.getBottom());//need to scroll down after onclick!
+                    } else {
+                        cv.setVisibility(View.GONE);
+                        state = false;
+                    }
                 }
-                else{
-                    cv.setVisibility(View.GONE);
-                    state=false;
+            });
+            glass = (ImageButton) getView().findViewById(R.id.glass);
+            glass.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    updateWaterLevel(250);
                 }
-            }
-        });
-        glass = (ImageButton) getView().findViewById(R.id.glass);
-        glass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateWaterLevel(250);
-            }
-        });
-        bottle = (ImageButton) getView().findViewById(R.id.smallBottle);
-        bottle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateWaterLevel(500);
-            }
-        });
-        bigBottle = (ImageButton) getView().findViewById(R.id.bigBottle);
-        bigBottle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateWaterLevel(750);
-            }
-        });
-        floatingActionButton = (FloatingActionButton) getView().findViewById(R.id.custom);
-        floatingActionButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Log.d("custom","___ml");
+            });
+            bottle = (ImageButton) getView().findViewById(R.id.smallBottle);
+            bottle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    updateWaterLevel(500);
+                }
+            });
+            bigBottle = (ImageButton) getView().findViewById(R.id.bigBottle);
+            bigBottle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    updateWaterLevel(750);
+                }
+            });
+            floatingActionButton = (FloatingActionButton) getView().findViewById(R.id.custom);
+            floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("custom", "___ml");
 //                final Dialog dialog = new Dialog(getActivity());
 //                dialog.setContentView(R.layout.custom_btn_dialouge);
 //                dialog.show();
-                final ViewGroup viewGroup = getView().findViewById(android.R.id.content);
-                final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.custom_btn_dialouge, viewGroup, false);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setView(dialogView);
-                final AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                add = dialogView.findViewById(R.id.add);
-                cncl = dialogView.findViewById(R.id.del);
-                water_quantity = dialogView.findViewById(R.id.qty);
+                    final ViewGroup viewGroup = getView().findViewById(android.R.id.content);
+                    final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.custom_btn_dialouge, viewGroup, false);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setView(dialogView);
+                    final AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                    add = dialogView.findViewById(R.id.add);
+                    cncl = dialogView.findViewById(R.id.del);
+                    water_quantity = dialogView.findViewById(R.id.qty);
 //                Log.d("quantity",qty);
-                add.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final String qty = water_quantity.getText().toString();
-                        if(qty.equals("")){
-                            Toast.makeText(getActivity(),"Please input some value",Toast.LENGTH_LONG).show();
-                        }
-                        else{
-                            Log.d("Add",qty+"ml");
-                            if(Integer.parseInt(qty)>targetSet-water){
-                                updateWaterLevel(targetSet-water);
-                                alertDialog.dismiss();
+                    add.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            final String qty = water_quantity.getText().toString();
+                            if (qty.equals("")) {
+                                Toast.makeText(getActivity(), "Please input some value", Toast.LENGTH_LONG).show();
+                            } else {
+                                Log.d("Add", qty + "ml");
+                                if (Integer.parseInt(qty) > targetSet - water) {
+                                    updateWaterLevel(targetSet - water);
+                                    alertDialog.dismiss();
+                                } else {
+                                    updateWaterLevel(Integer.parseInt(qty));
+                                    alertDialog.dismiss();
+                                }
                             }
-                            else{
-                                updateWaterLevel(Integer.parseInt(qty));
-                                alertDialog.dismiss();
-                            }
                         }
-                    }
-                });
-                cncl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        alertDialog.dismiss();
-                    }
-                });
-            }
-        });
-        updateTarget.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final ViewGroup viewGroup = getView().findViewById(android.R.id.content);
-                final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.update_target, viewGroup, false);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setView(dialogView);
-                final AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                add = dialogView.findViewById(R.id.add);
-                cncl = dialogView.findViewById(R.id.del);
-                water_quantity = dialogView.findViewById(R.id.qty);
+                    });
+                    cncl.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            alertDialog.dismiss();
+                        }
+                    });
+                }
+            });
+            updateTarget.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final ViewGroup viewGroup = getView().findViewById(android.R.id.content);
+                    final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.update_target, viewGroup, false);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setView(dialogView);
+                    final AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                    add = dialogView.findViewById(R.id.add);
+                    cncl = dialogView.findViewById(R.id.del);
+                    water_quantity = dialogView.findViewById(R.id.qty);
 //                Log.d("quantity",qty);
-                add.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final String qty = water_quantity.getText().toString();
-                        if(qty.equals("")){
-                            Toast.makeText(getActivity(),"Please input some value",Toast.LENGTH_LONG).show();
+                    add.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            final String qty = water_quantity.getText().toString();
+                            if (qty.equals("")) {
+                                Toast.makeText(getActivity(), "Please input some value", Toast.LENGTH_LONG).show();
+                            } else {
+                                Log.d("Add", qty + "ml");
+                                myRef.child("target").setValue(Integer.parseInt(qty));
+                                myRef.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        String tar = snapshot.child("target").getValue().toString();
+                                        water = snapshot.child(date).getValue(Integer.class);
+                                        updateWaterLevel(0);
+                                        targetSet = Integer.parseInt(tar);
+                                        target.setText(String.valueOf(targetSet));
+                                        Log.d("Updated value", String.valueOf(targetSet));
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                                alertDialog.dismiss();//change code here
+                            }
                         }
-                        else{
-                            Log.d("Add",qty+"ml");
-                            myRef.child("target").setValue(Integer.parseInt(qty));
-                            myRef.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    String tar = snapshot.child("target").getValue().toString();
-                                    water = snapshot.child(date).getValue(Integer.class);
-                                    updateWaterLevel(0);
-                                    targetSet = Integer.parseInt(tar);
-                                    target.setText(String.valueOf(targetSet));
-                                    Log.d("Updated value", String.valueOf(targetSet));
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-                            alertDialog.dismiss();//change code here
+                    });
+                    cncl.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            alertDialog.dismiss();
                         }
-                    }
-                });
-                cncl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        alertDialog.dismiss();
-                    }
-                });
-            }
+                    });
+                }
 
-        });
+            });
+        }
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

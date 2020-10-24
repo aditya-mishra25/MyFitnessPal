@@ -82,86 +82,106 @@ public class settings extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         fAuth = FirebaseAuth.getInstance();
-        log = (Button) getView().findViewById(R.id.logout);
-        log.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fAuth.signOut();
-                if(fAuth.getCurrentUser() == null){
-                    startActivity(new Intent(getActivity(), LoginPage.class));
+        if(fAuth.getCurrentUser()==null){
+            Intent intent = new Intent(getActivity(),LoginPage.class);
+            startActivity(intent);
+        }
+        else {
+
+            log = (Button) getView().findViewById(R.id.logout);
+            log.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    fAuth.signOut();
+                    if (fAuth.getCurrentUser() == null) {
+                        Intent intent = new Intent(getActivity(), LoginPage.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getActivity(), "Signout unsucessful", Toast.LENGTH_LONG).show();
+                    }
                 }
-                else{
-                    Toast.makeText(getActivity(),"Signout unsucessful",Toast.LENGTH_LONG).show();
+            });
+
+            //notification toggle button
+            String uid = fAuth.getUid();
+            notification = (Switch) getView().findViewById(R.id.toggle);
+            fdb = FirebaseDatabase.getInstance().getReference("Water").child(uid);
+
+            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+            final SharedPreferences.Editor editor = sharedPref.edit();
+
+            notification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (notification.isChecked()) {
+                        fdb.child("00 toggle").setValue("True");
+                        editor.putBoolean("switchValue", true).commit();
+                    } else {
+                        fdb.child("00 toggle").setValue("False");
+                        editor.putBoolean("switchValue", false).commit();
+                    }
                 }
-            }
-        });
+            });
 
-        //notification toggle button
-        String uid=fAuth.getUid();
-        notification = (Switch) getView().findViewById(R.id.toggle);
-        fdb = FirebaseDatabase.getInstance().getReference("Water").child(uid);
+            oldpass = (EditText) getView().findViewById(R.id.oldpassword);
+            newpass = (EditText) getView().findViewById(R.id.newpassword);
+            update = (Button) getView().findViewById(R.id.updatepassword);
 
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPref.edit();
+            update.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String old = oldpass.getText().toString();
+                    final String newPass = newpass.getText().toString();
 
-        notification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(notification.isChecked()){
-                    fdb.child("00 toggle").setValue("True");
-                    editor.putBoolean("switchValue", true).commit();
-                }
-                else{
-                    fdb.child("00 toggle").setValue("False");
-                    editor.putBoolean("switchValue", false).commit();
-                }
-            }
-        });
+//                    checking null fields
+                    if (!oldpass.getText().toString().isEmpty()&& !newpass.getText().toString().isEmpty()) {
+//                        oldpass.setError("Invalid Password, Minimum length of Password should be 8 ");
 
-        oldpass = (EditText) getView().findViewById(R.id.oldpassword);
-        newpass = (EditText) getView().findViewById(R.id.newpassword);
-        update = (Button) getView().findViewById(R.id.updatepassword);
+                        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        String email = user.getEmail();
+                        AuthCredential credential = EmailAuthProvider.getCredential(email, old);
+                        user.reauthenticate(credential)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            user.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        oldpass.setText("");
+                                                        newpass.setText("");
+                                                        hideKeyBoard();
+                                                        Toast.makeText(getActivity(), "Your password is updated successfully", Toast.LENGTH_LONG).show();
+                                                    } else {
+                                                        oldpass.setText("");
+                                                        newpass.setText("");
+                                                        hideKeyBoard();
+                                                        Toast.makeText(getActivity(), "Error while resetting password", Toast.LENGTH_LONG).show();
 
-        update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String old = oldpass.getText().toString();
-                final String newPass = newpass.getText().toString();
-                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                String email = user.getEmail();
-                AuthCredential credential = EmailAuthProvider.getCredential(email, old);
-                user.reauthenticate(credential)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    user.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                oldpass.setText("");
-                                                newpass.setText("");
-                                                hideKeyBoard();
-                                                Toast.makeText(getActivity(),"Your password is updated successfully",Toast.LENGTH_LONG).show();
-                                            } else {
-                                                oldpass.setText("");
-                                                newpass.setText("");
-                                                hideKeyBoard();
-                                                Toast.makeText(getActivity(),"Error while resetting password",Toast.LENGTH_LONG).show();
-
-                                            }
+                                                    }
+                                                }
+                                            });
+                                        } else {
+                                            oldpass.setText("");
+                                            newpass.setText("");
+                                            hideKeyBoard();
+                                            Toast.makeText(getActivity(), "Authentication Failed", Toast.LENGTH_LONG).show();
                                         }
-                                    });
-                                } else {
-                                    oldpass.setText("");
-                                    newpass.setText("");
-                                    hideKeyBoard();
-                                    Toast.makeText(getActivity(),"Authentication Failed",Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
-            }
-        });
+                                    }
+                                });
+
+                    }
+                    else{
+                        oldpass.setError("Invalid Password, Minimum length of Password should be 8 ");
+                        newpass.setError("Invalid Password, Minimum length of Password should be 8 ");
+                    }
+
+
+                }
+            });
+        }
 
     }
     public void hideKeyBoard() {

@@ -257,6 +257,12 @@ public class Registration extends AppCompatActivity {
                                                                                    water.child("target").setValue(500);
                                                                                    startActivity(new Intent(getApplicationContext(),LoginPage.class));
 
+                                                                                   DatabaseReference dietRef = database.getReference("Diet").child(uid).child("target");
+                                                                                   dietRef.child("calories").setValue(2200);
+                                                                                   dietRef.child("fats").setValue(177);
+                                                                                   dietRef.child("carbs").setValue(220);
+                                                                                   dietRef.child("proteins").setValue(200);
+
                                                                                }
                                                                                else{
                                                                                   String log_msg=task.getException().toString().substring(61);

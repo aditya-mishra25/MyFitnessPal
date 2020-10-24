@@ -963,8 +963,12 @@ public class diet<cal_db> extends Fragment {
                     Log.d("keys", String.valueOf(key));
                     Log.d("food", String.valueOf(val));
                     Collection values = arr.values();
-
-
+                    int j = 0;
+                    while (table.getChildCount() > 0) {
+                        TableRow row =  (TableRow)table.getChildAt(0);
+                        table.removeView(row);
+                        j=table.getChildCount();
+                    }
 //
                     for(int i=0;i<arr.size();i++){
                         TableRow tr=new TableRow(getActivity());
