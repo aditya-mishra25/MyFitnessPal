@@ -24,8 +24,8 @@
         tools:layout_editor_absoluteY="1dp">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
@@ -35,95 +35,49 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView3" >
 
-            <TableLayout
+            <ScrollView
+                android:id="@+id/sc"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-                <TableRow>
+                android:isScrollContainer="true">
 
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_column="1"
-                        android:padding="3dp"
-                        android:text="Food"
-                        android:textColor="@color/colorPrimaryDark" />
+                <TableLayout
+                    android:id="@+id/table"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        android:layout_width="50dp"
-                        android:layout_column="2"
-                        android:padding="3dp"
-                        android:text="Fats"
-                        android:textColor="@color/colorPrimaryDark" />
-                    <TextView
-                        android:layout_width="110dp"
-                        android:layout_column="3"
-                        android:padding="3dp"
-                        android:text="Carbohydrates"
-                        android:textColor="@color/colorPrimaryDark" />
+<!--                    <TableRow>-->
 
-                    <TextView
-                        android:layout_width="70dp"
-                        android:layout_column="4"
-                        android:padding="3dp"
-                        android:text="Proteins"
-                        android:textColor="@color/colorPrimaryDark" />
-                    <TextView
-                        android:layout_width="70dp"
-                        android:layout_column="5"
-                        android:padding="3dp"
-                        android:text="Qty"
-                        android:textColor="@color/colorPrimaryDark" />
-                </TableRow>
+<!--                        <TextView-->
+<!--                            android:layout_width="180dp"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:layout_column="1"-->
+<!--                            android:padding="3dp"-->
+<!--&lt;!&ndash;                            android:text="Time"&ndash;&gt;-->
+<!--                            android:textColor="@color/colorPrimaryDark" />-->
 
-                <TableRow>
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_column="1"
-                        android:padding="3dp"
-                        android:text="Garlic Naan"
-                        android:textColor="@color/colorPrimaryDark" />
-
-                    <TextView
-                        android:layout_width="50dp"
-                        android:layout_column="2"
-                        android:padding="3dp"
-                        android:text="30"
-                        android:textColor="@color/colorPrimaryDark" />
-                    <TextView
-                        android:layout_width="110dp"
-                        android:layout_column="3"
-                        android:padding="3dp"
-                        android:text="25"
-                        android:textColor="@color/colorPrimaryDark" />
-
-                    <TextView
-                        android:layout_width="70dp"
-                        android:layout_column="4"
-                        android:padding="3dp"
-                        android:text="20"
-                        android:textColor="@color/colorPrimaryDark" />
-                    <TextView
-                        android:layout_width="70dp"
-                        android:layout_column="5"
-                        android:padding="3dp"
-                        android:text="1"
-                        android:textColor="@color/colorPrimaryDark" />
-                </TableRow>
+<!--                        <TextView-->
+<!--                            android:layout_width="200dp"-->
+<!--                            android:layout_column="2"-->
+<!--                            android:padding="3dp"-->
+<!--                            android:text="Food"-->
+<!--                            android:textColor="@color/colorPrimaryDark" />-->
+<!--                    </TableRow>-->
 
 
-            </TableLayout>
+                </TableLayout>
+            </ScrollView>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -148,9 +102,32 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"><![CDATA[
 
                 android:layout_height="match_parent">
+
+
+
+                ]]>
+
+                <TextView
+                    android:id="@+id/updateTarget2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginStart="280dp"
+                    android:layout_marginLeft="280dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:padding="5dp"
+                    android:text="Update target?"
+                    android:textColor="#1A73E8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pie4" />
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pie1"
@@ -174,6 +151,8 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
+                    android:layout_marginBottom="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/pie4"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/pie1"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -184,8 +163,8 @@
                     android:layout_height="190dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="40dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/pie4"
                     app:layout_constraintStart_toStartOf="parent"
@@ -197,10 +176,10 @@
                     android:layout_height="190dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginBottom="40dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/pie3"
@@ -242,11 +221,11 @@
 
                 <Button
                     android:id="@+id/chart"
-                    android:layout_width="120dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="20dp"
