@@ -120,10 +120,10 @@ public class profile extends Fragment {
                         final String w = weight_ed.getText().toString();
                         FirebaseDatabase fdb = FirebaseDatabase.getInstance();
                         final DatabaseReference userUpdate = fdb.getReference("Users").child(uid);
-                        if(a.length()!=0){
+                        if(a.length()!=0 && a!="0"){
                             userUpdate.child("age").setValue(a);
                         }
-                        if(h.length()!=0){
+                        if(h.length()!=0 && h!="0"){
                             userUpdate.child("height").setValue(h);
                             userUpdate.addValueEventListener(new ValueEventListener() {
                                 @Override
@@ -142,7 +142,7 @@ public class profile extends Fragment {
                                 }
                             });
                         }
-                        if(w.length()!=0){
+                        if(w.length()!=0 && w!="0"){
                             userUpdate.child("weight").setValue(w);
                             userUpdate.addValueEventListener(new ValueEventListener() {
                                 @Override

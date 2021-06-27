@@ -335,9 +335,9 @@ public class diet<cal_db> extends Fragment {
                     public void onClick(View view) {
                         final DatabaseReference myRef = firebaseDatabase.getReference().child("Diet").child(uid).child("target");
                         myRef.child("calories").setValue(2200);
-                        myRef.child("proteins").setValue(200);
-                        myRef.child("carbs").setValue(488);
-                        myRef.child("fats").setValue(177);
+                        myRef.child("proteins").setValue(120);
+                        myRef.child("carbs").setValue(388);
+                        myRef.child("fats").setValue(150);
 
                     }
                 });
@@ -347,8 +347,8 @@ public class diet<cal_db> extends Fragment {
                         final DatabaseReference myRef = firebaseDatabase.getReference().child("Diet").child(uid).child("target");
                         myRef.child("calories").setValue(1200);
                         myRef.child("proteins").setValue(200);
-                        myRef.child("carbs").setValue(488);
-                        myRef.child("fats").setValue(177);
+                        myRef.child("carbs").setValue(208);
+                        myRef.child("fats").setValue(100);
 
                     }
                 });
@@ -1154,7 +1154,6 @@ public class diet<cal_db> extends Fragment {
         pie3.setData(pieData);
     }
 
-
 //carbs
     public void updatecarbs(int qty){
 //        final String uid = DBconnection();
@@ -1204,9 +1203,6 @@ public class diet<cal_db> extends Fragment {
         pie4.setData(pieData);
     }
 
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -1223,8 +1219,3 @@ public class diet<cal_db> extends Fragment {
         return inflater.inflate(R.layout.fragment_diet, container, false);
     }
 }
-
-
-
-
-
